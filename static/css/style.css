@@ -3638,3 +3638,580 @@ CHECKOUT PAGE
     .view-order-product img { width: 90px; height: 90px; }
     .view-order-actions { flex-direction: column; }
 }
+
+
+
+/* ==========================================================
+   STEPUP.IN — DESKTOP SIZING & ALIGNMENT FIX
+   Added to make the layout fit normal 100% browser zoom.
+   Keeps the existing colors, design, and animations.
+========================================================== */
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-size: 0.9375rem;
+}
+
+/* Header: use flexible sizing instead of oversized fixed widths */
+.topbar {
+    min-height: 100px;
+    height: auto;
+    padding: 14px clamp(16px, 2.5vw, 36px);
+    gap: clamp(12px, 1.5vw, 24px);
+}
+
+.align {
+    min-width: 0;
+    flex: 1 1 auto;
+    gap: clamp(12px, 2vw, 28px);
+}
+
+.logo img {
+    width: clamp(64px, 6vw, 88px);
+    height: clamp(64px, 6vw, 88px);
+}
+
+.search-box {
+    width: clamp(220px, 30vw, 430px);
+    max-width: 100%;
+    flex: 0 1 430px;
+}
+
+.search-box input {
+    font-size: 0.95rem;
+    padding: 8px 12px;
+}
+
+.search-box button {
+    font-size: 1.25rem;
+    padding: 7px 12px;
+}
+
+.main-nav {
+    flex: 0 1 auto;
+    gap: clamp(10px, 1.4vw, 22px);
+}
+
+.main-nav a {
+    font-size: clamp(0.78rem, 1vw, 0.95rem);
+}
+
+.shop_name {
+    font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+}
+
+/* Category navigation should not have large side margins */
+.category-nav {
+    margin: 0 auto 36px;
+    width: min(100% - 32px, 1400px);
+    padding: 6px 16px;
+    gap: clamp(18px, 3vw, 44px);
+}
+
+.category-item > a {
+    font-size: clamp(0.85rem, 1.1vw, 1rem);
+    padding: 10px 0;
+}
+
+/* Hero text and overview scale smoothly with screen size */
+.image-label {
+    gap: clamp(14px, 2vw, 28px);
+    max-width: min(500px, 80%);
+}
+
+.image-label span {
+    width: auto;
+    max-width: 100%;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+}
+
+.hero-slide.active span {
+    width: auto;
+    min-width: 180px;
+}
+
+.shop-now-btn {
+    font-size: 0.9rem;
+    padding: 11px 22px;
+}
+
+.overview {
+    padding: clamp(48px, 6vw, 80px) 5%;
+}
+
+.overview h2,
+.home-category-section h2,
+.trending-section h2 {
+    font-size: clamp(1.45rem, 2.2vw, 1.85rem);
+    margin-bottom: clamp(28px, 4vw, 52px);
+}
+
+.overview p {
+    max-width: 900px;
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+}
+
+/* Category cards and product grids use available width */
+.home-category-section {
+    padding: clamp(44px, 5vw, 68px) 5%;
+}
+
+.home-category-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2.5vw, 36px);
+}
+
+.home-category-card {
+    width: 100%;
+    min-width: 0;
+    height: clamp(230px, 28vw, 360px);
+}
+
+.trending-section {
+    padding: clamp(44px, 5vw, 68px) 5%;
+}
+
+.product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(22px, 3vw, 44px);
+}
+
+.product-card > img {
+    height: clamp(180px, 20vw, 260px);
+}
+
+.product-card h3 {
+    padding: 14px 12px 5px;
+    font-size: clamp(0.9rem, 1.15vw, 1rem);
+}
+
+.product-card > p {
+    padding: 4px 12px 16px;
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+}
+
+.view-all-btn {
+    font-size: 0.95rem;
+    padding: 12px 18px;
+}
+
+/* About page: remove fixed-width overflow and hard-coded offsets */
+.about-section {
+    padding: 28px clamp(16px, 3vw, 40px);
+}
+
+.about-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 30%);
+    gap: clamp(18px, 3vw, 42px);
+}
+
+.about-side-image {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    aspect-ratio: 0.86;
+    margin-right: 0;
+    justify-self: end;
+}
+
+.about-main-left .intro,
+.about-main-left .mission-text {
+    max-width: 780px;
+    font-size: clamp(0.95rem, 1.15vw, 1.05rem);
+    margin-bottom: 28px;
+}
+
+.about-intro h1,
+.about-main-left h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2rem);
+}
+
+.mission-image {
+    width: min(380px, 90%);
+    height: auto;
+    aspect-ratio: 1;
+    margin: 42px auto;
+}
+
+.values-grid {
+    gap: clamp(16px, 2.5vw, 32px);
+    margin: 28px 0 56px;
+    padding: 0 clamp(12px, 2vw, 28px);
+}
+
+.value-card h3 {
+    font-size: 1rem;
+}
+
+.value-card p {
+    font-size: 0.9rem;
+}
+
+/* Footer text and newsletter controls */
+.footer {
+    padding: 42px 4% 18px;
+}
+
+.footer-grid {
+    gap: clamp(16px, 2vw, 28px);
+}
+
+.footer h4 {
+    font-size: 1rem;
+    margin-bottom: 18px;
+}
+
+.footer p,
+.footer a,
+.newsletter label {
+    font-size: 0.85rem;
+}
+
+.newsletter input {
+    font-size: 0.9rem;
+}
+
+.newsletter button {
+    font-size: 0.9rem;
+}
+
+/* Contact page */
+.contact-top {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(18px, 2.5vw, 36px);
+    padding: 36px 4%;
+}
+
+.contact-info {
+    padding-left: clamp(0px, 2vw, 24px);
+}
+
+.contact-info h3 {
+    font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+    margin-bottom: 22px;
+}
+
+.contact-info h4 {
+    font-size: 1.05rem;
+}
+
+.contact-info p {
+    font-size: 0.9rem;
+    overflow-wrap: anywhere;
+}
+
+.contact-banner img {
+    height: clamp(280px, 34vw, 440px);
+}
+
+.enquiry-section h3 {
+    font-size: 1.5rem;
+}
+
+.enquiry-section label {
+    font-size: 0.95rem;
+}
+
+.enquiry-section input,
+.enquiry-section textarea {
+    padding: 12px;
+}
+
+/* Login and registration */
+.auth-section {
+    min-height: 0;
+    padding: 42px 16px;
+}
+
+.auth-card {
+    max-width: 540px;
+    min-height: 0;
+    padding: 28px clamp(18px, 3vw, 34px) 34px;
+}
+
+.auth-tabs {
+    margin-bottom: 28px;
+}
+
+.auth-tab {
+    font-size: 1.05rem;
+    padding: 12px 8px;
+}
+
+.auth-form {
+    padding: 0 clamp(0px, 3vw, 36px);
+    gap: 12px;
+}
+
+.auth-form label {
+    font-size: 0.9rem;
+}
+
+.auth-form input {
+    height: 44px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+}
+
+.auth-submit {
+    font-size: 0.95rem;
+}
+
+.auth-or {
+    font-size: 1rem;
+    margin: 22px 0;
+}
+
+.google-button {
+    width: min(100%, 280px);
+    font-size: 0.9rem;
+}
+
+.auth-form .terms-checkbox label {
+    font-size: 0.8rem;
+}
+
+/* Product category listing */
+.category-products-section {
+    width: min(100%, 1600px);
+    padding: 24px clamp(16px, 2.5vw, 36px);
+}
+
+.category-heading {
+    margin-bottom: 28px;
+    padding: 12px;
+}
+
+.category-heading h1 {
+    font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+    margin-bottom: 18px;
+}
+
+.category-product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 28px);
+}
+
+.category-product-card {
+    margin: 0;
+    padding: 9px;
+}
+
+.category-product-image {
+    height: clamp(160px, 17vw, 220px);
+}
+
+.category-product-details {
+    padding: 10px;
+}
+
+.product-brand {
+    font-size: 0.82rem;
+}
+
+.category-product-details h3 {
+    font-size: 0.95rem;
+}
+
+.product-type,
+.rating-number {
+    font-size: 0.78rem;
+}
+
+.stars {
+    font-size: 1.05rem;
+}
+
+.product-price {
+    font-size: 1rem;
+}
+
+.product-colors {
+    gap: 7px;
+    font-size: 0.82rem;
+}
+
+.color-option {
+    width: 17px;
+    height: 17px;
+}
+
+.category-product-actions {
+    gap: 8px;
+}
+
+.category-product-actions button,
+.category-product-actions a {
+    padding: 8px 5px;
+    font-size: 0.78rem;
+}
+
+/* Medium desktop and laptop widths */
+@media (max-width: 1200px) {
+    .topbar {
+        flex-wrap: wrap;
+    }
+
+    .align {
+        flex: 1 1 100%;
+        justify-content: space-between;
+    }
+
+    .search-box {
+        width: min(42vw, 430px);
+    }
+
+    .main-nav {
+        justify-content: center;
+    }
+
+    .home-category-cards {
+        gap: 18px;
+    }
+
+    .product-grid {
+        gap: 24px;
+    }
+
+    .category-product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+    .home-category-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .about-layout {
+        grid-template-columns: minmax(0, 1fr) minmax(180px, 30%);
+    }
+
+    .values-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .contact-top {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .category-product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Small screens: preserve the existing mobile layout */
+@media (max-width: 768px) {
+    .topbar {
+        min-height: 0;
+    }
+
+    .align {
+        flex: 1 1 100%;
+        flex-wrap: wrap;
+    }
+
+    .search-box {
+        width: 100%;
+        flex: 1 1 100%;
+    }
+
+    .main-nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .main-nav a {
+        font-size: 0.8rem;
+    }
+
+    .category-nav {
+        width: 100%;
+        margin: 0 0 24px;
+        gap: 16px;
+    }
+
+    .home-category-cards,
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .about-side-image {
+        width: min(320px, 90%);
+        max-width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+        margin: 0 auto;
+        justify-self: center;
+    }
+
+    .mission-image {
+        margin: 32px auto;
+    }
+
+    .contact-top {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-info {
+        padding-left: 0;
+    }
+
+    .contact-banner img {
+        height: 260px;
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .home-category-cards,
+    .product-grid,
+    .category-product-grid,
+    .values-grid,
+    .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .category-product-image {
+        height: 145px;
+    }
+
+    .category-product-actions {
+        flex-direction: column;
+    }
+
+    .category-product-actions button,
+    .category-product-actions a {
+        width: 100%;
+    }
+
+    .category-item > a {
+        font-size: 0.72rem;
+    }
+
+    .footer-grid {
+        gap: 24px 16px;
+    }
+}
