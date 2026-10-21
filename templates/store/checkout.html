@@ -165,122 +165,183 @@
 
 {% endblock %}
 
-{% block extra_js %}
 
- <script>
-    console.log("CHECKOUT SCRIPT STARTED"); 
-        
+{% block extra_js %}
+<script>
+console.log("STEPUP CHECKOUT STARTED");
+
 function formatRupees(value) {
     return "₹" + Number(value || 0).toLocaleString("en-IN", {
         maximumFractionDigits: 2
     });
 }
 
-let checkoutProduct = null;
+function readCheckoutItems() {
+    try {
+        // Cart checkout takes priority over an old Buy Now selection.
+        const savedCart = sessionStorage.getItem("stepup_checkout_cart");
 
-try {
-    const savedProduct = sessionStorage.getItem("stepup_buy_now");
-    console.log("Current page:", window.location.href);
-    console.log("Saved checkout product:", savedProduct);
+        if (savedCart) {
+            const items = JSON.parse(savedCart);
+            if (Array.isArray(items) && items.length) return items;
+        }
 
-    if (savedProduct) {
-        checkoutProduct = JSON.parse(savedProduct);
+        // Support the existing Buy Now flow.
+        const savedProduct = sessionStorage.getItem("stepup_buy_now");
+
+        if (savedProduct) {
+            const product = JSON.parse(savedProduct);
+            if (product && product.name) return [product];
+        }
+
+        // Fallback for your existing cart.
+        const cart = JSON.parse(
+            localStorage.getItem("stepup_cart") || "[]"
+        );
+
+        return Array.isArray(cart) ? cart : [];
+    } catch (error) {
+        console.error("Unable to read checkout items:", error);
+        return [];
     }
-        console.log("Parsed checkout product:", checkoutProduct);
-
-} catch (error) {
-    console.error("Checkout product error:", error);
 }
 
+const checkoutItems = readCheckoutItems();
 const checkoutForm = document.getElementById("checkoutForm");
-console.log("Form found:", checkoutForm);
-console.log("Submit handler setup reached");
 
-if (checkoutProduct) {
-    const price = Number(checkoutProduct.price || 0);
-    const quantity = Number(checkoutProduct.quantity || 1);
-    const total = price * quantity;
+function renderCheckout() {
+    const summary = document.querySelector(".order-summary");
+    const totalAmount = checkoutItems.reduce((sum, item) => {
+        return sum + Number(item.price || 0) *
+            Number(item.quantity || 1);
+    }, 0);
 
-    document.getElementById("checkoutName").textContent =
-        checkoutProduct.name || "Selected shoe";
+    if (!checkoutItems.length) {
+        document.getElementById("checkoutName").textContent =
+            "Your cart is empty. Please add a product first.";
 
-    document.getElementById("checkoutSize").textContent =
-        checkoutProduct.size || "-";
+        document.getElementById("checkoutImage").hidden = true;
+        checkoutForm.hidden = true;
+        return;
+    }
 
-    document.getElementById("checkoutColor").textContent =
-        checkoutProduct.color || "-";
+    // Render every product in the order summary.
+    const productInfo = summary.querySelector(".product-info");
+    productInfo.replaceChildren();
 
-    document.getElementById("checkoutQuantity").textContent = quantity;
+    checkoutItems.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "product-info";
 
-    document.getElementById("checkoutPrice").textContent =
-        formatRupees(price);
+        const image = document.createElement("img");
+        image.alt = item.name || "Selected shoe";
+        image.src = item.image || "";
+        image.hidden = !item.image;
+
+        image.onerror = function () {
+            this.hidden = true;
+            console.warn("Product image could not load:", item.image);
+        };
+
+        const details = document.createElement("div");
+        details.className = "product-details";
+
+        const name = document.createElement("h4");
+        name.textContent = item.name || "Selected shoe";
+        details.appendChild(name);
+
+        const type = document.createElement("p");
+        type.textContent = item.product_type || "";
+        details.appendChild(type);
+
+        const rows = [
+            ["Size", item.size || "-"],
+            ["Colour", item.color || "-"],
+            ["Quantity", Number(item.quantity || 1)],
+            ["MRP", formatRupees(item.price)],
+            ["Item total", formatRupees(
+                Number(item.price || 0) * Number(item.quantity || 1)
+            )]
+        ];
+
+        rows.forEach(([label, value]) => {
+            const row = document.createElement("div");
+            row.className = "summary-line";
+
+            const left = document.createElement("span");
+            left.textContent = label;
+
+            const right = document.createElement("span");
+            right.textContent = value;
+
+            row.append(left, right);
+            details.appendChild(row);
+        });
+
+        card.append(image, details);
+        productInfo.appendChild(card);
+    });
 
     document.getElementById("checkoutAmount").textContent =
-        formatRupees(total);
+        formatRupees(totalAmount);
 
     document.getElementById("checkoutTotal").textContent =
-        formatRupees(total);
-
-    const image = document.getElementById("checkoutImage");
-    image.src = checkoutProduct.image || "";
-    image.hidden = !checkoutProduct.image;
-
-} else {
-    document.getElementById("checkoutName").textContent =
-        "No product selected. Please return to the product page and click Buy Now.";
-
-    document.getElementById("checkoutImage").hidden = true;
-
-    checkoutForm.hidden = true;
+        formatRupees(totalAmount);
 }
 
+if (checkoutForm) {
+    checkoutForm.addEventListener("submit", function (event) {
+        event.preventDefault();
 
-checkoutForm.addEventListener("submit", function(event) {
-    event.preventDefault();
-    console.log("STEP 1: ORDER SUBMIT EVENT FIRED");
+        if (!checkoutItems.length) {
+            alert("Your cart is empty. Please select a product first.");
+            return;
+        }
 
-    console.log("ORDER BUTTON CLICKED - SUBMIT STARTED");
-    console.log("Checkout product:", checkoutProduct);
+        if (!checkoutForm.reportValidity()) return;
 
-    if (!checkoutProduct) {
-        alert("Please select a product first.");
-        return;
-    }
+        const formData = new FormData(checkoutForm);
 
-    if (!checkoutForm.reportValidity()) {
-        return;
-    }
+        const customer = {
+            first_name: formData.get("first_name"),
+            last_name: formData.get("last_name"),
+            email: formData.get("email"),
+            phone: formData.get("phone"),
+            address: formData.get("address"),
+            city: formData.get("city"),
+            state: formData.get("state"),
+            landmark: formData.get("landmark"),
+            pincode: formData.get("pincode")
+        };
 
-    const order = {
-        order_number: "SU" + Date.now().toString().slice(-8),
-        product: checkoutProduct,
-        payment_method:
-            checkoutForm.querySelector(
-                'input[name="payment_method"]:checked'
-            )?.value || "COD",
-        placed_at: new Date().toISOString(),
-        status: "placed"
-    };
+        const order = {
+            order_number: "SU" + Date.now().toString().slice(-8),
+            product: checkoutItems[0],
+            products: checkoutItems,
+            customer: customer,
+            total: checkoutItems.reduce((sum, item) =>
+                sum + Number(item.price || 0) *
+                Number(item.quantity || 1), 0),
+            payment_method:
+                checkoutForm.querySelector(
+                    'input[name="payment_method"]:checked'
+                )?.value || "COD",
+            placed_at: new Date().toISOString(),
+            status: "placed"
+        };
 
-    // Save order details before navigating
-    sessionStorage.setItem(
-        "stepup_order",
-        JSON.stringify(order)
-    );
-    console.log("CHECK SAVED ORDER:", sessionStorage.getItem("stepup_order"));
-    console.log("Saved order:", sessionStorage.getItem("stepup_order"));
+        try {
+            sessionStorage.setItem("stepup_order", JSON.stringify(order));
+            console.log("Order saved:", order);
 
+            window.location.href = "{% url 'order_success' %}";
+        } catch (error) {
+            console.error("Unable to save order:", error);
+            alert("Unable to save your order. Please try again.");
+        }
+    });
+}
 
-    // Navigate to successful-order page
-    window.location.href = "{% url 'order_success' %}";
-});
-console.log(
-    "Submit handler test:",
-    checkoutForm ? "Form exists" : "Form missing"
-);
-
-
-
-    </script>
-
+renderCheckout();
+</script>
 {% endblock %}

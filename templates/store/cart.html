@@ -39,9 +39,10 @@
     </div>
 
     <div class="cart-checkout-section">
-        <a href="{% url 'checkout' %}" class="secure-checkout">
+        <button type="button" class="secure-checkout"
+                onclick="goToCheckout()">
             ♙ &nbsp; Checkout Securely
-        </a>
+        </button>
 
         <p class="express-title">Express Checkout</p>
 
@@ -203,6 +204,22 @@ function updateCartBadge() {
         badge.hidden = count === 0;
     });
 }
+
+function goToCheckout() {
+    const items = readCart();
+
+    if (!items.length) {
+        alert('Your cart is empty. Please add a product first.');
+        return;
+    }
+
+    // Pass the complete cart to the checkout page
+    sessionStorage.setItem('stepup_checkout_cart', JSON.stringify(items));
+
+    // Open the Django checkout page
+    window.location.href = "{% url 'checkout' %}";
+}
+
 
 renderCart();
 updateCartBadge();
