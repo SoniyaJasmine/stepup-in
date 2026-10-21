@@ -30,13 +30,9 @@ SECRET_KEY = os.environ.get(
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'stepup-in-qa8o.onrender.com/',
-    host.strip()
-    for host in os.environ.get(
-        "ALLOWED_HOSTS", "localhost,127.0.0.1"
-    ).split(",")
-    if host.strip()
-    
+    'stepup-in-qa8o.onrender.com',
+    'localhost',
+    '127.0.0.1',
 ]
 
 # Application definition
