@@ -27,14 +27,16 @@ SECRET_KEY = os.environ.get(
     "django-insecure-local-development-only-key"
 )
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "True").lower() == "true"
+DEBUG = False
 
 ALLOWED_HOSTS = [
+    'stepup-in-qa8o.onrender.com/',
     host.strip()
     for host in os.environ.get(
         "ALLOWED_HOSTS", "localhost,127.0.0.1"
     ).split(",")
     if host.strip()
+    
 ]
 
 # Application definition
