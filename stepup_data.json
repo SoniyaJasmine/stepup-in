@@ -1,0 +1,874 @@
+[
+{
+  "model": "store.product",
+  "pk": 1,
+  "fields": {
+    "name": "Ophelia Womens Silver Diamante Heel",
+    "category": "offers",
+    "description": "",
+    "price": "2299.00",
+    "image": "products/14833_2_B02_4KaTmgR.20250530000126.jpg",
+    "stock": 5,
+    "is_available": true,
+    "created_at": "2026-10-18T17:09:02.290Z",
+    "product_type": "Casual Shoes",
+    "rating": 5,
+    "colors": "Black,White,Brown",
+    "is_featured": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 2,
+  "fields": {
+    "name": "Billie Womens Silver",
+    "category": "offers",
+    "description": "",
+    "price": "3000.00",
+    "image": "products/14832_2_B02.20250530000126.jpg",
+    "stock": 5,
+    "is_available": true,
+    "created_at": "2026-10-18T17:10:40.066Z",
+    "product_type": "Casual Shoes",
+    "rating": 5,
+    "colors": "Black,White,Brown",
+    "is_featured": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 3,
+  "fields": {
+    "name": "Drew Womens Blush Diamante Slip On Shoe",
+    "category": "offers",
+    "description": "",
+    "price": "2599.00",
+    "image": "products/12552_2_B02.20240226000125.jpg",
+    "stock": 0,
+    "is_available": true,
+    "created_at": "2026-10-18T17:11:38.900Z",
+    "product_type": "Casual Shoes",
+    "rating": 5,
+    "colors": "Black,White,Brown",
+    "is_featured": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 4,
+  "fields": {
+    "name": "Drew Womens Navy Diamante Slip On Shoe",
+    "category": "offers",
+    "description": "",
+    "price": "1299.00",
+    "image": "products/125098_2_B02.20240229000136.jpg",
+    "stock": 7,
+    "is_available": true,
+    "created_at": "2026-10-18T17:12:39.147Z",
+    "product_type": "Casual Shoes",
+    "rating": 5,
+    "colors": "Black,White,Brown",
+    "is_featured": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 5,
+  "fields": {
+    "name": "Weaver Mens Navy Lace Up Trainer",
+    "category": "offers",
+    "description": "",
+    "price": "2799.00",
+    "image": "products/830166_2_B02.20240925000409.jpg",
+    "stock": 0,
+    "is_available": true,
+    "created_at": "2026-10-18T17:26:30.407Z",
+    "product_type": "Casual Shoes",
+    "rating": 5,
+    "colors": "Black,White,Brown",
+    "is_featured": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 6,
+  "fields": {
+    "name": "Weaver Mens White Lace Up Trainer",
+    "category": "offers",
+    "description": "",
+    "price": "2259.00",
+    "image": "products/830252_2_B02.20240925000249.jpg",
+    "stock": 2,
+    "is_available": true,
+    "created_at": "2026-10-18T17:27:15.478Z",
+    "product_type": "Casual Shoes",
+    "rating": 5,
+    "colors": "Black,White,Brown",
+    "is_featured": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 7,
+  "fields": {
+    "name": "Calista Girls Pink Daisy",
+    "category": "offers",
+    "description": "",
+    "price": "2899.00",
+    "image": "products/292091_2_B02.20240807000251.jpg",
+    "stock": 5,
+    "is_available": true,
+    "created_at": "2026-10-18T17:27:57.995Z",
+    "product_type": "Casual Shoes",
+    "rating": 5,
+    "colors": "Black,White,Brown",
+    "is_featured": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 8,
+  "fields": {
+    "name": "Colby Boys Blur Dinosaur Canvas",
+    "category": "offers",
+    "description": "",
+    "price": "3299.00",
+    "image": "products/20741_2_B02.20240304000134.jpg",
+    "stock": 8,
+    "is_available": true,
+    "created_at": "2026-10-18T17:28:33.566Z",
+    "product_type": "Casual Shoes",
+    "rating": 5,
+    "colors": "Black,White,Brown",
+    "is_featured": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 9,
+  "fields": {
+    "name": "Comfy Steps",
+    "category": "men",
+    "description": "",
+    "price": "2799.00",
+    "image": "products/image_4.png",
+    "stock": 5,
+    "is_available": true,
+    "created_at": "2026-10-19T08:19:58.642Z",
+    "product_type": "Harlan Mens Tan Boat Shoe",
+    "rating": 5,
+    "colors": "Black,White,Brown",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 10,
+  "fields": {
+    "name": "XL",
+    "category": "men",
+    "description": "",
+    "price": "1799.00",
+    "image": "products/image_5.png",
+    "stock": 0,
+    "is_available": true,
+    "created_at": "2026-10-19T08:22:48.909Z",
+    "product_type": "Weaver Mens Lace Up Trainer",
+    "rating": 5,
+    "colors": "Black,red,white",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 11,
+  "fields": {
+    "name": "Double Strap Sandals",
+    "category": "men",
+    "description": "",
+    "price": "2998.92",
+    "image": "products/image_6.png",
+    "stock": 2,
+    "is_available": true,
+    "created_at": "2026-10-19T09:51:45.556Z",
+    "product_type": "Red Leather sandals",
+    "rating": 4,
+    "colors": "Black,brown, white",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 12,
+  "fields": {
+    "name": "Comfy Steps",
+    "category": "men",
+    "description": "",
+    "price": "1995.00",
+    "image": "products/image_7.png",
+    "stock": 9,
+    "is_available": true,
+    "created_at": "2026-10-19T09:52:50.592Z",
+    "product_type": "Lustral White Leather Slippers",
+    "rating": 5,
+    "colors": "Black,White,",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 13,
+  "fields": {
+    "name": "Osagra",
+    "category": "men",
+    "description": "",
+    "price": "2799.00",
+    "image": "products/image_11.png",
+    "stock": 4,
+    "is_available": true,
+    "created_at": "2026-10-19T09:54:55.526Z",
+    "product_type": "Neptune Mens Lace Up Trainer",
+    "rating": 0,
+    "colors": "Black,Blue,Whie",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 14,
+  "fields": {
+    "name": "Sneakers",
+    "category": "men",
+    "description": "The Harlan men's boat shoes from Comfy Steps are perfect for your casual summer outings. Featuring a tan upper with navy blue accents and intricate while stitching, these shoes offer a trendy look. The twin elasticated gussets and lace up fastening ensures a quick and secure fit, while the gripped outside provides stability and security.",
+    "price": "3999.00",
+    "image": "products/image_10.png",
+    "stock": 3,
+    "is_available": true,
+    "created_at": "2026-10-19T09:56:13.116Z",
+    "product_type": "Mateo Leather Lace-Up Sneakers",
+    "rating": 5,
+    "colors": "Blue, Brown, White",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 15,
+  "fields": {
+    "name": "Urban Territory",
+    "category": "men",
+    "description": "",
+    "price": "2799.00",
+    "image": "products/image_9.png",
+    "stock": 7,
+    "is_available": true,
+    "created_at": "2026-10-19T09:57:21.629Z",
+    "product_type": "Beaumount Mens Black Warm Boots",
+    "rating": 5,
+    "colors": "Black, Brown, White",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 16,
+  "fields": {
+    "name": "Urban Territory",
+    "category": "men",
+    "description": "",
+    "price": "2999.00",
+    "image": "products/image_8.png",
+    "stock": 4,
+    "is_available": true,
+    "created_at": "2026-10-19T09:58:23.020Z",
+    "product_type": "Bill Mens Brown Lace Up Boots",
+    "rating": 4,
+    "colors": "Black, Brown",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 17,
+  "fields": {
+    "name": "Marco",
+    "category": "men",
+    "description": "",
+    "price": "2995.00",
+    "image": "products/image_12.png",
+    "stock": 6,
+    "is_available": true,
+    "created_at": "2026-10-19T10:00:02.550Z",
+    "product_type": "Leather Ethnic Sandals",
+    "rating": 4,
+    "colors": "Black",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 18,
+  "fields": {
+    "name": "Stone Creek",
+    "category": "men",
+    "description": "",
+    "price": "4999.00",
+    "image": "products/image_13.png",
+    "stock": 5,
+    "is_available": true,
+    "created_at": "2026-10-19T10:01:14.872Z",
+    "product_type": "Herfa Hand Painted Tan Leather Sandals",
+    "rating": 4,
+    "colors": ",Brown",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 19,
+  "fields": {
+    "name": "Hobos",
+    "category": "men",
+    "description": "",
+    "price": "9999.00",
+    "image": "products/image_14.png",
+    "stock": 4,
+    "is_available": true,
+    "created_at": "2026-10-19T10:02:37.989Z",
+    "product_type": "Lucas Leather Loafers",
+    "rating": 5,
+    "colors": "Black, Brown",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 20,
+  "fields": {
+    "name": "Skechers",
+    "category": "men",
+    "description": "",
+    "price": "7399.00",
+    "image": "products/image_15.png",
+    "stock": 5,
+    "is_available": true,
+    "created_at": "2026-10-19T10:03:41.604Z",
+    "product_type": "Lenore tan Leather Formal Loafers",
+    "rating": 5,
+    "colors": "Brown",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 21,
+  "fields": {
+    "name": "Lunar",
+    "category": "women",
+    "description": "",
+    "price": "2799.00",
+    "image": "products/image_16.png",
+    "stock": 1,
+    "is_available": true,
+    "created_at": "2026-10-19T10:37:02.861Z",
+    "product_type": "Fancy Womens Lilac Sandal",
+    "rating": 5,
+    "colors": "Black,White,Brown",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 22,
+  "fields": {
+    "name": "Lilley",
+    "category": "women",
+    "description": "",
+    "price": "3799.01",
+    "image": "products/image_17.png",
+    "stock": 9,
+    "is_available": true,
+    "created_at": "2026-10-19T10:38:16.609Z",
+    "product_type": "Drew Womens Diamante Slip Shoe",
+    "rating": 5,
+    "colors": "Black, White",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 23,
+  "fields": {
+    "name": "Softlites",
+    "category": "women",
+    "description": "",
+    "price": "2699.00",
+    "image": "products/image_18.png",
+    "stock": 2,
+    "is_available": true,
+    "created_at": "2026-10-19T10:39:12.800Z",
+    "product_type": "Selina Womens Navy Sandal",
+    "rating": 4,
+    "colors": "Black,White,Brown",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 24,
+  "fields": {
+    "name": "Shoezone",
+    "category": "women",
+    "description": "",
+    "price": "2799.00",
+    "image": "products/image_19.png",
+    "stock": 8,
+    "is_available": true,
+    "created_at": "2026-10-19T10:40:09.226Z",
+    "product_type": "Sadie Womens Floral Beach Mule",
+    "rating": 5,
+    "colors": "Black, Brown, Blue",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 25,
+  "fields": {
+    "name": "Truffle",
+    "category": "women",
+    "description": "",
+    "price": "3999.00",
+    "image": "products/image_23.png",
+    "stock": 3,
+    "is_available": true,
+    "created_at": "2026-10-19T10:41:25.186Z",
+    "product_type": "Ophelia Womens Silver Heel",
+    "rating": 5,
+    "colors": "Blue",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 26,
+  "fields": {
+    "name": "Lilley",
+    "category": "women",
+    "description": "",
+    "price": "3799.00",
+    "image": "products/image_22.png",
+    "stock": 7,
+    "is_available": true,
+    "created_at": "2026-10-19T10:42:16.709Z",
+    "product_type": "Audrey Womens Patent Lace Shoe",
+    "rating": 5,
+    "colors": "Black,White,Brown",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 27,
+  "fields": {
+    "name": "Dunlop",
+    "category": "women",
+    "description": "",
+    "price": "3599.00",
+    "image": "products/image_21.png",
+    "stock": 4,
+    "is_available": true,
+    "created_at": "2026-10-19T10:44:03.415Z",
+    "product_type": "Noelle Mesh Bow Ballerinas",
+    "rating": 4,
+    "colors": "Black, Brown",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 28,
+  "fields": {
+    "name": "Bluey",
+    "category": "women",
+    "description": "",
+    "price": "1999.00",
+    "image": "products/image_20.png",
+    "stock": 7,
+    "is_available": true,
+    "created_at": "2026-10-19T10:45:21.234Z",
+    "product_type": "Stella Flat Embellished Sliders",
+    "rating": 4,
+    "colors": "Black,White,Brown",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 29,
+  "fields": {
+    "name": "Cushion Walk",
+    "category": "women",
+    "description": "",
+    "price": "3199.00",
+    "image": "products/image_24.png",
+    "stock": 5,
+    "is_available": true,
+    "created_at": "2026-10-19T10:46:22.847Z",
+    "product_type": "Olivia Pencil Heels",
+    "rating": 5,
+    "colors": "Black,",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 30,
+  "fields": {
+    "name": "Hobos",
+    "category": "women",
+    "description": "",
+    "price": "3699.00",
+    "image": "products/image_25.png",
+    "stock": 10,
+    "is_available": true,
+    "created_at": "2026-10-19T10:47:32.958Z",
+    "product_type": "Amelia Kitten Heels",
+    "rating": 4,
+    "colors": "Red",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 31,
+  "fields": {
+    "name": "Lozzi",
+    "category": "women",
+    "description": "",
+    "price": "2399.00",
+    "image": "products/image_26.png",
+    "stock": 5,
+    "is_available": true,
+    "created_at": "2026-10-19T10:48:50.758Z",
+    "product_type": "Beckett Sandals",
+    "rating": 5,
+    "colors": "Black,Gray, white",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 32,
+  "fields": {
+    "name": "Stone Creek",
+    "category": "women",
+    "description": "",
+    "price": "1799.00",
+    "image": "products/image_27.png",
+    "stock": 3,
+    "is_available": true,
+    "created_at": "2026-10-19T10:50:25.520Z",
+    "product_type": "Gitano Flat Back Elastic Sandals",
+    "rating": 4,
+    "colors": "Brown, Blue",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 33,
+  "fields": {
+    "name": "Crocks",
+    "category": "kids",
+    "description": "",
+    "price": "2799.00",
+    "image": "products/image_28.png",
+    "stock": 8,
+    "is_available": true,
+    "created_at": "2026-10-19T10:54:04.068Z",
+    "product_type": "Whitby Girls White Multi Marble EVA Clog",
+    "rating": 4,
+    "colors": "Multi-color",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 34,
+  "fields": {
+    "name": "Walkright",
+    "category": "kids",
+    "description": "",
+    "price": "3199.00",
+    "image": "products/image_29.png",
+    "stock": 1,
+    "is_available": true,
+    "created_at": "2026-10-19T10:55:09.674Z",
+    "product_type": "Claudia Girls Blue Fasten Canvas",
+    "rating": 4,
+    "colors": "Blue",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 35,
+  "fields": {
+    "name": "Walkright",
+    "category": "kids",
+    "description": "",
+    "price": "2699.00",
+    "image": "products/image_30.png",
+    "stock": 4,
+    "is_available": true,
+    "created_at": "2026-10-19T10:56:19.034Z",
+    "product_type": "Carey Girls Pink Polka Dot Canvas",
+    "rating": 4,
+    "colors": "Blue, Pink",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 36,
+  "fields": {
+    "name": "Walkright",
+    "category": "kids",
+    "description": "",
+    "price": "4799.00",
+    "image": "products/image_31.png",
+    "stock": 0,
+    "is_available": true,
+    "created_at": "2026-10-19T10:57:31.245Z",
+    "product_type": "Charlotte Girls Multi T-Bar Sandal",
+    "rating": 5,
+    "colors": "Multi-color",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 37,
+  "fields": {
+    "name": "The Slipper Company",
+    "category": "kids",
+    "description": "",
+    "price": "2999.00",
+    "image": "products/image_35.png",
+    "stock": 6,
+    "is_available": true,
+    "created_at": "2026-10-19T10:58:42.428Z",
+    "product_type": "Cherish Girls Pink Bootie",
+    "rating": 4,
+    "colors": "Pink",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 38,
+  "fields": {
+    "name": "Lol",
+    "category": "kids",
+    "description": "",
+    "price": "2798.85",
+    "image": "products/image_34.png",
+    "stock": 2,
+    "is_available": true,
+    "created_at": "2026-10-19T10:59:36.653Z",
+    "product_type": "Surprise Kids Fasten Slipper",
+    "rating": 5,
+    "colors": "Multi-color",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 39,
+  "fields": {
+    "name": "Bluey",
+    "category": "kids",
+    "description": "",
+    "price": "4999.32",
+    "image": "products/image_33.png",
+    "stock": 0,
+    "is_available": true,
+    "created_at": "2026-10-19T11:00:39.610Z",
+    "product_type": "Kids Blue Easy Fasten Slipper",
+    "rating": 4,
+    "colors": "Blue",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 40,
+  "fields": {
+    "name": "Spider-Man",
+    "category": "kids",
+    "description": "",
+    "price": "3799.00",
+    "image": "products/image_32.png",
+    "stock": 4,
+    "is_available": true,
+    "created_at": "2026-10-19T11:01:33.123Z",
+    "product_type": "Kids Red Light Up Trainer",
+    "rating": 4,
+    "colors": "Multi-color",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 41,
+  "fields": {
+    "name": "Disney Stitch",
+    "category": "kids",
+    "description": "",
+    "price": "3999.00",
+    "image": "products/image_36.png",
+    "stock": 8,
+    "is_available": true,
+    "created_at": "2026-10-19T11:02:38.305Z",
+    "product_type": "Fairgroung Kids Multi EVA Clog",
+    "rating": 5,
+    "colors": "Multi-color",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 42,
+  "fields": {
+    "name": "Disney Frozen",
+    "category": "kids",
+    "description": "",
+    "price": "3399.00",
+    "image": "products/image_37.png",
+    "stock": 6,
+    "is_available": true,
+    "created_at": "2026-10-19T11:03:35.949Z",
+    "product_type": "Sparkle Kids Purple Sandal",
+    "rating": 4,
+    "colors": "Purple",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 43,
+  "fields": {
+    "name": "Shoezone",
+    "category": "kids",
+    "description": "",
+    "price": "4999.00",
+    "image": "products/image_38.png",
+    "stock": 3,
+    "is_available": true,
+    "created_at": "2026-10-19T11:04:31.731Z",
+    "product_type": "Shower Kids Black Welly",
+    "rating": 5,
+    "colors": "Black,White,Brown",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.product",
+  "pk": 44,
+  "fields": {
+    "name": "Showzone",
+    "category": "kids",
+    "description": "",
+    "price": "2799.00",
+    "image": "products/image_39.png",
+    "stock": 7,
+    "is_available": true,
+    "created_at": "2026-10-19T11:05:27.156Z",
+    "product_type": "Hurricane Glitter Unicorn Welly",
+    "rating": 4,
+    "colors": "Blue",
+    "is_featured": false
+  }
+},
+{
+  "model": "store.productimage",
+  "pk": 1,
+  "fields": {
+    "product": 20,
+    "image": "products/gallery/image_40.png"
+  }
+},
+{
+  "model": "store.productimage",
+  "pk": 2,
+  "fields": {
+    "product": 20,
+    "image": "products/gallery/image_41.png"
+  }
+},
+{
+  "model": "store.productimage",
+  "pk": 3,
+  "fields": {
+    "product": 20,
+    "image": "products/gallery/image_42.png"
+  }
+},
+{
+  "model": "store.productimage",
+  "pk": 4,
+  "fields": {
+    "product": 20,
+    "image": "products/gallery/image_43.png"
+  }
+},
+{
+  "model": "store.productimage",
+  "pk": 5,
+  "fields": {
+    "product": 20,
+    "image": "products/gallery/image_46.png"
+  }
+},
+{
+  "model": "store.productimage",
+  "pk": 6,
+  "fields": {
+    "product": 14,
+    "image": "products/gallery/image_40_PEQC8yU.png"
+  }
+},
+{
+  "model": "store.productimage",
+  "pk": 7,
+  "fields": {
+    "product": 14,
+    "image": "products/gallery/image_41_lPtDHlV.png"
+  }
+},
+{
+  "model": "store.productimage",
+  "pk": 8,
+  "fields": {
+    "product": 14,
+    "image": "products/gallery/image_42_dyIYj8S.png"
+  }
+},
+{
+  "model": "store.productimage",
+  "pk": 9,
+  "fields": {
+    "product": 14,
+    "image": "products/gallery/image_43_egrH927.png"
+  }
+},
+{
+  "model": "store.productimage",
+  "pk": 10,
+  "fields": {
+    "product": 14,
+    "image": "products/gallery/image_46_MKedd3G.png"
+  }
+}
+]

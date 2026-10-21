@@ -463,7 +463,7 @@ main {
 }
 
 .overview h2,
-.category-section h2,
+.home-category-section h2,
 .trending-section h2 {
     margin-bottom: 80px;
     font-size: 30px;
@@ -472,7 +472,7 @@ main {
 }
 
 .overview h2::after,
-.category-section h2::after,
+.home-category-section h2::after,
 .trending-section h2::after {
     content: '';
     display: block;
@@ -495,23 +495,23 @@ main {
    6. CATEGORY CARDS
 ========================= */
 
-.category-section {
+.home-category-section {
     padding: 75px 9%;
     background: var(--white);
 }
 
-.category-section h2 {
+.home-category-section h2 {
     margin-bottom: 60px;
     text-align: center;
 }
 
-.category-cards {
+.home-category-cards {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 60px;
 }
 
-.category-card {
+.home-category-card {
     position: relative;
     width: 430px;
     height: clamp(260px, 34vw, 450px);
@@ -520,7 +520,7 @@ main {
     border-radius: 15px;
 }
 
-.category-card::after {
+.home-category-card::after {
     content: '';
     position: absolute;
     inset: 45% 0 0;
@@ -531,14 +531,14 @@ main {
     transition: background var(--transition);
 }
 
-.category-card img {
+.home-category-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s ease;
 }
 
-.category-card h3 {
+.home-category-card h3 {
     position: absolute;
     z-index: 2;
     left: 0;
@@ -551,7 +551,7 @@ main {
     letter-spacing: 1px;
 }
 
-.category-card:hover img {
+.home-category-card:hover img {
     transform: scale(1.06);
 }
 
