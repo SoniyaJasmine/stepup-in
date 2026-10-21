@@ -12,10 +12,30 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('cart/', views.cart, name='cart'),
     path('checkout/', views.checkout, name='checkout'),
+
+    # Razorpay payment URLs
+    path(
+        'create-razorpay-order/',
+        views.create_razorpay_order,
+        name='create_razorpay_order'
+    ),
+    path(
+        'verify-razorpay-payment/',
+        views.verify_razorpay_payment,
+        name='verify_razorpay_payment'
+    ),
+    path(
+    'calculate-checkout-total/',
+    views.calculate_checkout_total,
+    name='calculate_checkout_total'
+    ),
+
     path('order-success/', views.order_success, name='order_success'),
     path('track-order/', views.track_order, name='track_order'),
     path('view-order/', views.view_order, name='view_order'),
+
     path('category/<slug:category>/', views.category, name='category'),
+
     path(
         'password-reset/',
         auth_views.PasswordResetView.as_view(
@@ -23,9 +43,10 @@ urlpatterns = [
         ),
         name='password_reset'
     ),
+
     path(
-    'product/<int:product_id>/',
-    views.product_detail,
-    name='product_detail'
+        'product/<int:product_id>/',
+        views.product_detail,
+        name='product_detail'
     ),
 ]

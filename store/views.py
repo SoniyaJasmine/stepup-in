@@ -1,4 +1,11 @@
+import json
+import razorpay
 
+from decimal import Decimal, InvalidOperation
+from django.conf import settings
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User
@@ -206,3 +213,188 @@ def product_detail(request, product_id):
 
     return render(request, 'store/product_detail.html', context)
 
+
+
+@require_POST
+@csrf_protect
+def calculate_checkout_total(request):
+    try:
+        data = json.loads(request.body)
+        items = data.get('items', [])
+
+        if not isinstance(items, list) or not items or len(items) > 50:
+            return JsonResponse(
+                {'error': 'Invalid or empty cart.'},
+                status=400
+            )
+
+        total = Decimal('0.00')
+        validated_items = []
+
+        for item in items:
+            if not isinstance(item, dict):
+                return JsonResponse(
+                    {'error': 'Invalid cart item.'},
+                    status=400
+                )
+
+            product_id = int(item.get('product_id', 0))
+            quantity = int(item.get('quantity', 0))
+
+            if product_id <= 0 or quantity < 1 or quantity > 10:
+                return JsonResponse(
+                    {'error': 'Invalid product or quantity.'},
+                    status=400
+                )
+
+            product = Product.objects.filter(
+                id=product_id,
+                is_available=True
+            ).first()
+
+            if product is None:
+                return JsonResponse(
+                    {'error': 'A selected product is unavailable.'},
+                    status=400
+                )
+
+            if product.stock < quantity:
+                return JsonResponse(
+                    {'error': f'Insufficient stock for {product.name}.'},
+                    status=400
+                )
+
+            # Use the price from Django's database.
+            item_total = product.price * quantity
+            total += item_total
+
+            validated_items.append({
+                'product_id': product.id,
+                'name': product.name,
+                'price': str(product.price),
+                'quantity': quantity,
+                'item_total': str(item_total),
+            })
+
+        return JsonResponse({
+            'items': validated_items,
+            'total': str(total),
+            'currency': 'INR',
+        })
+
+    except (ValueError, TypeError, AttributeError, json.JSONDecodeError):
+        return JsonResponse(
+            {'error': 'Invalid checkout data.'},
+            status=400
+        )
+
+
+@require_POST
+@csrf_protect
+def create_razorpay_order(request):
+    if not settings.RAZORPAY_KEY_ID or not settings.RAZORPAY_KEY_SECRET:
+        return JsonResponse(
+            {'error': 'Online payments are not configured.'},
+            status=503
+        )
+
+    try:
+        data = json.loads(request.body)
+        amount = Decimal(str(data.get('amount', '0')))
+
+        # Validate the amount before creating a payment order.
+        if not amount.is_finite() or amount <= 0:
+            return JsonResponse(
+                {'error': 'Invalid payment amount.'},
+                status=400
+            )
+
+        if amount > Decimal('1000000'):
+            return JsonResponse(
+                {'error': 'Order amount exceeds the allowed limit.'},
+                status=400
+            )
+
+        # IMPORTANT:
+        # This is a demonstration step. Before accepting real payments,
+        # calculate the total from trusted server-side product prices,
+        # quantities and stock—not the browser's amount.
+        amount_paise = int(amount * 100)
+
+        client = razorpay.Client(
+            auth=(
+                settings.RAZORPAY_KEY_ID,
+                settings.RAZORPAY_KEY_SECRET
+            )
+        )
+
+        order = client.order.create({
+            'amount': amount_paise,
+            'currency': 'INR',
+            'receipt': f'stepup_{request.session.session_key or "checkout"}'
+        })
+
+        return JsonResponse({
+            'key_id': settings.RAZORPAY_KEY_ID,
+            'order_id': order['id'],
+            'amount': order['amount'],
+            'currency': order['currency'],
+        })
+
+    except (ValueError, TypeError, InvalidOperation, json.JSONDecodeError):
+        return JsonResponse(
+            {'error': 'Invalid request data.'},
+            status=400
+        )
+    except Exception:
+        # Log the exception privately on the server when debugging.
+        return JsonResponse(
+            {'error': 'Unable to create payment order. Please try again.'},
+            status=502
+        )
+
+
+@require_POST
+@csrf_protect
+def verify_razorpay_payment(request):
+    if not settings.RAZORPAY_KEY_ID or not settings.RAZORPAY_KEY_SECRET:
+        return JsonResponse(
+            {'error': 'Online payments are not configured.'},
+            status=503
+        )
+
+    try:
+        data = json.loads(request.body)
+
+        client = razorpay.Client(
+            auth=(
+                settings.RAZORPAY_KEY_ID,
+                settings.RAZORPAY_KEY_SECRET
+            )
+        )
+
+        client.utility.verify_payment_signature({
+            'razorpay_order_id': data.get('razorpay_order_id', ''),
+            'razorpay_payment_id': data.get('razorpay_payment_id', ''),
+            'razorpay_signature': data.get('razorpay_signature', ''),
+        })
+
+        # Signature verification confirms the callback signature.
+        # A production checkout must also validate the stored order,
+        # amount, currency and payment status on the server before
+        # marking the order as paid.
+        return JsonResponse({
+            'verified': True,
+            'message': 'Payment signature verified.'
+        })
+
+    except (ValueError, TypeError, json.JSONDecodeError):
+        return JsonResponse(
+            {'error': 'Invalid payment verification data.'},
+            status=400
+        )
+    except Exception:
+        return JsonResponse(
+            {'error': 'Payment verification failed.'},
+            status=400
+        )
