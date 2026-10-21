@@ -1,0 +1,106 @@
+{% extends 'store/base.html' %}
+
+{% block title %}View Order | StepUp.in{% endblock %}
+
+
+
+
+{% block content %}
+<section class="view-order-page">
+    <div class="view-order-card">
+        <h1>Order Details</h1>
+        <p class="view-order-subtitle">
+            Thank you for shopping with StepUp.in!
+        </p>
+
+        <p>Order Number: <strong id="viewOrderNumber">-</strong></p>
+        <span class="view-order-status" id="viewOrderStatus">
+            Order Placed
+        </span>
+
+        <div class="view-order-product">
+            <img id="viewOrderImage" src="" alt="Ordered shoe" hidden>
+            <div class="view-order-details">
+                <h2 id="viewOrderName">Loading product...</h2>
+                <p id="viewOrderSize">Size: -</p>
+                <p id="viewOrderColor">Colour: -</p>
+                <p id="viewOrderQuantity">Quantity: 1</p>
+            </div>
+        </div>
+
+        <div class="view-order-total">
+            <span>Total Amount</span>
+            <span id="viewOrderTotal">₹0</span>
+        </div>
+
+        <div class="view-order-actions">
+            <a href="/" class="view-order-btn">Continue Shopping</a>
+            <a href="{% url 'track_order' %}"
+               class="view-order-btn primary">Track Order</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    let order = null;
+
+    try {
+        order = JSON.parse(
+            sessionStorage.getItem("stepup_order") || "null"
+        );
+    } catch (error) {
+        console.error("Unable to read order:", error);
+    }
+
+    if (!order) {
+        document.getElementById("viewOrderName").textContent =
+            "No order details available";
+        document.getElementById("viewOrderStatus").textContent =
+            "Order not found";
+        return;
+    }
+
+    const product = order.product || order;
+    const quantity = Number(product.quantity || 1);
+    const total = Number(product.price || 0) * quantity;
+
+    document.getElementById("viewOrderNumber").textContent =
+        "#" + (order.order_number || "DEMO");
+
+    document.getElementById("viewOrderName").textContent =
+        product.name || "Selected shoe";
+
+    document.getElementById("viewOrderSize").textContent =
+        "Size: " + (product.size || "-");
+
+    document.getElementById("viewOrderColor").textContent =
+        "Colour: " + (product.color || "-");
+
+    document.getElementById("viewOrderQuantity").textContent =
+        "Quantity: " + quantity;
+
+    document.getElementById("viewOrderTotal").textContent =
+        "₹" + total.toLocaleString("en-IN");
+
+    const image = document.getElementById("viewOrderImage");
+
+    if (product.image) {
+        image.src = product.image;
+        image.hidden = false;
+    }
+
+    const statusLabels = {
+        placed: "Order Placed",
+        dispatched: "Order Dispatched",
+        in_transit: "Order in Transit",
+        delivered: "Delivered Successfully"
+    };
+
+    document.getElementById("viewOrderStatus").textContent =
+        statusLabels[order.status || "placed"] || "Order Placed";
+})();
+</script>
+{% endblock %}

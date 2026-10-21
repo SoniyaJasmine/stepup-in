@@ -1,0 +1,305 @@
+
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}{{ category }} Shoes | StepUp.in{% endblock %}
+
+{% block content %}
+
+<section class="category-products-section">
+
+    <div class="category-heading">
+        <h1>{{ category }} Footwear</h1>
+    </div>
+
+    
+    <div class="shop-toolbar">
+        <button type="button" class="filter-toggle" id="filterToggle">
+            Filters <span class="filter-arrow">➜</span>
+        </button>
+
+        <div class="sort-wrapper">
+            <button type="button" class="sort-toggle" id="sortToggle">
+                <span>Sort by</span>
+
+            </button>
+
+            <div class="sort-menu" id="sortMenu">
+                <button type="button" data-sort="featured">
+                    Featured <span class="sort-check">✓</span>
+                </button>
+                <button type="button" data-sort="newest">New Arrivals</button>
+                <button type="button" data-sort="price_low">Price:Low-High</button>
+                <button type="button" data-sort="price_high">Price:High-Low</button>
+                <button type="button" data-sort="rating">Overall Rating</button>
+            </div>
+        </div>
+    </div>
+
+    <form method="get" class="filter-panel" id="filterPanel">
+        <div class="filter-field">
+            <label for="min_price">Minimum Price (₹)</label>
+            <input type="number" name="min_price" id="min_price"
+                min="0" value="{{ min_price }}" placeholder="0">
+        </div>
+
+        <div class="filter-field">
+            <label for="max_price">Maximum Price (₹)</label>
+            <input type="number" name="max_price" id="max_price"
+                min="0" value="{{ max_price }}" placeholder="Any">
+        </div>
+
+        <label class="stock-filter">
+            <input type="checkbox" name="in_stock" value="on"
+                {% if in_stock %}checked{% endif %}>
+            In stock only
+        </label>
+
+        <input type="hidden" name="sort" id="sortValue" value="{{ sort_by }}">
+
+        <button type="submit" class="apply-filter-btn">Apply Filters</button>
+        <a href="{% url 'category' category|lower %}" class="clear-filter-btn">Clear</a>
+    </form>
+
+
+    <div class="category-product-grid">
+
+        {% for product in products %}
+        <article class="category-product-card">
+
+            <a href="#" class="category-product-image">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}"
+                         alt="{{ product.name }}">
+                {% else %}
+                    <div class="no-product-image">No Image Available</div>
+                {% endif %}
+            </a>
+
+            <div class="category-product-details">
+
+                <p class="product-brand">{{ product.brand }}</p>
+                <h3>{{ product.name }}</h3>
+                <p class="product-type">{{ product.product_type }}</p>
+
+                <div class="product-rating">
+                    <span class="stars">
+                        {% for star in "12345" %}
+                            {% if forloop.counter <= product.rating %}
+                                ★
+                            {% else %}
+                                ☆
+                            {% endif %}
+                        {% endfor %}
+                    </span>
+                    <span class="rating-number">{{ product.rating }}.0</span>
+                </div>
+
+                <p class="product-price">₹{{ product.price }}</p>
+
+                
+                <div class="product-colors">
+                    <span>Colors:</span>
+                    <div class="color-options">
+                        {% for color in product.color_list %}
+                            <span
+                                class="color-option"
+                                title="{{ color }}"
+                                aria-label="{{ color }}"
+                                style="background-color: {{ color|lower }};">
+                            </span>
+                        {% empty %}
+                            <span>Default</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+                <div class="category-product-actions">
+                    <a href="{% url 'product_detail' product.id %}" class="category-buy-now-btn">
+                        Buy Now
+                    </a>
+
+                    <button type="button"
+                        class="category-add-cart-btn"
+                        data-id="{{ product.id }}"
+                        data-name="{{ product.name|escape }}"
+                        data-price="{{ product.price }}"
+                        data-image="{% if product.image %}{{ product.image.url }}{% endif %}"
+                        data-type="{{ product.product_type|escape }}"
+                        data-stock="{{ product.stock }}">
+                    Add to Cart
+                </button>
+                </div>
+
+            </div>
+        </article>
+
+        {% empty %}
+            <p class="category-empty">
+                No products available in this category yet.
+            </p>
+        {% endfor %}
+
+    </div>
+
+    <div class="view-all-container">
+        <a href="{% url 'category' 'offers' %}" class="view-all-btn">View All</a>
+    </div>
+
+</section>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const sortToggle = document.getElementById('sortToggle');
+    const sortMenu = document.getElementById('sortMenu');
+    const filterToggle = document.getElementById('filterToggle');
+    const filterPanel = document.getElementById('filterPanel');
+
+    if (sortToggle && sortMenu) {
+        sortToggle.addEventListener('click', function (event) {
+            event.stopPropagation();
+            sortMenu.classList.toggle('open');
+        });
+
+        sortMenu.addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+
+        
+function highlightSelectedSort() {
+    const currentSort =
+        new URLSearchParams(window.location.search).get('sort') || 'featured';
+
+    sortMenu.querySelectorAll('button[data-sort]').forEach(function (button) {
+        const isSelected = button.dataset.sort === currentSort;
+
+        button.classList.toggle('selected', isSelected);
+
+        const oldCheck = button.querySelector('.sort-check');
+        if (oldCheck) oldCheck.remove();
+
+        if (isSelected) {
+            const check = document.createElement('span');
+            check.className = 'sort-check';
+            check.textContent = '✓';
+            button.appendChild(check);
+        }
+    });
+}
+
+highlightSelectedSort();
+
+sortMenu.querySelectorAll('button[data-sort]').forEach(function (button) {
+    button.addEventListener('click', function () {
+        const url = new URL(window.location.href);
+        const sort = button.dataset.sort;
+
+        if (sort === 'featured') {
+            url.searchParams.delete('sort');
+        } else {
+            url.searchParams.set('sort', sort);
+        }
+
+        sessionStorage.setItem('scrollToProducts', 'yes');
+        window.location.href = url.toString();
+    });
+});
+
+
+        document.addEventListener('click', function () {
+            sortMenu.classList.remove('open');
+        });
+    }
+
+    if (filterToggle && filterPanel) {
+        filterToggle.addEventListener('click', function () {
+            filterPanel.classList.toggle('open');
+            filterToggle.classList.toggle('active');
+        });
+    }
+
+    
+const filterForm = document.getElementById('filterPanel');
+
+if (filterForm) {
+    filterForm.addEventListener('submit', function () {
+        sessionStorage.setItem('scrollToProducts', 'yes');
+    });
+}
+
+if (sessionStorage.getItem('scrollToProducts') === 'yes') {
+    sessionStorage.removeItem('scrollToProducts');
+
+    window.addEventListener('load', function () {
+        const productGrid = document.querySelector('.category-product-grid');
+
+        if (productGrid) {
+            productGrid.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+}
+
+
+document.querySelectorAll('.category-add-cart-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        const product = {
+            id: this.dataset.id,
+            name: this.dataset.name,
+            price: Number(this.dataset.price),
+            image: this.dataset.image,
+            product_type: this.dataset.type,
+            stock: Number(this.dataset.stock),
+            quantity: 1,
+            size: '41'
+        };
+
+        let cart = [];
+
+        try {
+            cart = JSON.parse(localStorage.getItem('stepup_cart') || '[]');
+            if (!Array.isArray(cart)) cart = [];
+        } catch {
+            cart = [];
+        }
+
+        const existing = cart.find(item =>
+            String(item.id) === String(product.id) &&
+            String(item.size || '41') === product.size
+        );
+
+        if (existing) {
+            const maxStock = Math.min(10, product.stock);
+
+            if (existing.quantity >= maxStock) {
+                alert('Maximum available stock reached.');
+                return;
+            }
+
+            existing.quantity += 1;
+        } else {
+            if (product.stock < 1) {
+                alert('This product is out of stock.');
+                return;
+            }
+
+            cart.push(product);
+        }
+
+        localStorage.setItem('stepup_cart', JSON.stringify(cart));
+        window.location.href = "{% url 'cart' %}";
+    });
+});
+
+
+});
+</script>
+
+
+{% endblock %}
+
+

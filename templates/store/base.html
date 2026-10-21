@@ -1,0 +1,593 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}StepUp.in{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <header class="topbar">
+        <div class="align">
+            <div class="logo">
+                <img src="{% static 'images/IMG_20250530_190436_075.jpg' %}" alt="">
+            </div>
+
+            <form class="search-box" action="#" method="get">
+                <input type="search" name="q" placeholder="Search here">
+                <button type="submit" aria-label="Search">⌕</button>
+            </form>
+        </div>
+
+        <nav class="main-nav">
+            <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                Home</a>
+            <a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                About Us</a>
+            <a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                Contact Us</a>
+            <a href="{% url 'login' %}" class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+                Login</a>
+            <a href="{% url 'cart' %}"
+            class="{% if request.resolver_match.url_name == 'cart' %}active{% endif %} nav-cart"
+            aria-label="Shopping cart">Cart
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span data-cart-count {% if not cart_count %}hidden{% endif %}>
+                    {{ cart_count|default:0 }}
+                </span>
+            </a>
+
+            
+        </nav>
+    </header>
+
+    
+    
+{% if request.resolver_match.url_name == 'about' or request.resolver_match.url_name == 'contact' or request.resolver_match.url_name == 'login' or request.resolver_match.url_name == 'register' or request.resolver_match.url_name == 'cart' or request.resolver_match.url_name == 'category' or request.resolver_match.url_name == 'product_detail' or request.resolver_match.url_name == 'checkout' or request.resolver_match.url_name == 'order_success' or request.resolver_match.url_name == 'track_order' or request.resolver_match.url_name == 'view_order' %}
+    <a href="{% url 'home' %}" class="category-back">← Back</a>
+{% endif %}
+
+
+
+
+    <div class="shop_name">
+        <h1>StepUp.in</h1>
+    </div>
+
+    <!-- Category Navigation -->
+    <nav class="category-nav">
+        {% for category in categories %}
+        <div class="category-item">
+            <a href="{% url 'category' category.slug %}"
+            class="category-link {% if request.resolver_match.kwargs.category == category.slug %}active{% endif %}">
+                {{ category.name }}
+            </a>
+
+            <div class="mega-menu">
+                {% if category.slug == 'women' %}
+                <div class="mega-column">
+                    <h4>New Arrivals</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Sandals</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Flat</a></li>
+                        <li><a href="#">Flip flop</a></li>
+                        <li><a href="#">Slider</a></li>
+                        <li><a href="#">Scrappy</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Trainees</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Chunky</a></li>
+                        <li><a href="#">Flip flop</a></li>
+                        <li><a href="#">Lace Up</a></li>
+                        <li><a href="#">Slip On</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Canvas</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Lace Up</a></li>
+                        <li><a href="#">Slip On</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Shoes</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Ballerina</a></li>
+                        <li><a href="#">Brogue</a></li>
+                        <li><a href="#">Flat</a></li>
+                        <li><a href="#">Heel</a></li>
+                        <li><a href="#">Leather</a></li>
+                        <li><a href="#">Party</a></li>
+                        <li><a href="#">School</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Safety Footwear</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Boots</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Ankle</a></li>
+                        <li><a href="#">Biker</a></li>
+                        <li><a href="#">Heel</a></li>
+                        <li><a href="#">Knee</a></li>
+                        <li><a href="#">High</a></li>
+                        <li><a href="#">Lace Up</a></li>
+                        <li><a href="#">Leather</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Slippers</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Easy Fasten</a></li>
+                        <li><a href="#">Full</a></li>
+                        <li><a href="#">Moccasin</a></li>
+                        <li><a href="#">Mule</a></li>
+                        <li><a href="#">Slipper Boots</a></li>
+                    </ul>
+                </div>
+
+                {% elif category.slug == 'men' %}
+                <div class="mega-column">
+                    <h4>New Arrivals</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Sandals</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Mule</a></li>
+                        <li><a href="#">Flip flop</a></li>
+                        <li><a href="#">Slider</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Trainees</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Easy</a></li>
+                        <li><a href="#">Fasten</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Canvas</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Lace Up</a></li>
+                        <li><a href="#">Slip On</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Shoes</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Brogue</a></li>
+                        <li><a href="#">Casual</a></li>
+                        <li><a href="#">Easy</a></li>
+                        <li><a href="#">Fasten</a></li>
+                        <li><a href="#">Lace Up</a></li>
+                        <li><a href="#">Leather</a></li>
+                        <li><a href="#">Loafer</a></li>
+                        <li><a href="#">Oxford</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Safety Footwear</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Boots</a></li>
+                        <li><a href="#">Shoes</a></li>
+                        <li><a href="#">Steel toe cap</a></li>
+                        <li><a href="#">Traniners</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Boots</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Ankle</a></li>
+                        <li><a href="#">Chesla</a></li>
+                        <li><a href="#">Desert</a></li>
+                        <li><a href="#">Lace Up</a></li>
+                        <li><a href="#">Leather</a></li>
+                        <li><a href="#">Pull On</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Slippers</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Easy Fasten</a></li>
+                        <li><a href="#">Full</a></li>
+                        <li><a href="#">Moccasin</a></li>
+                        <li><a href="#">Mule</a></li>
+                    </ul>
+                </div>
+
+                {% elif category.slug == 'kids' %}
+                <div class="mega-column">
+                    <h4>Girls</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Sandals</a></li>
+                        <li><a href="#">Canvas</a></li>
+                        <li><a href="#">Trainers</a></li>
+                        <li><a href="#">Shoes</a></li>
+                        <li><a href="#">Boots</a></li>
+                        <li><a href="#">Welbies</a></li>
+                        <li><a href="#">Slippers</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Girls Trending</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Character footwear</a></li>
+                        <li><a href="#">Online exclusive</a></li>
+                        <li><a href="#">Back to school</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Back to schools</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Girls school shoes</a></li>
+                        <li><a href="#">Boys school shoes</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Canvas</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Lace Up</a></li>
+                        <li><a href="#">Slip On</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Boys</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Sandals</a></li>
+                        <li><a href="#">Canvas</a></li>
+                        <li><a href="#">Trainers</a></li>
+                        <li><a href="#">Shoes</a></li>
+                        <li><a href="#">Boots</a></li>
+                        <li><a href="#">Wellies</a></li>
+                        <li><a href="#">Slippers</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Safety Footwear</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li> 
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Boys Trending</h4>
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">New arrivals</a></li>
+                        <li><a href="#">Chracter</a></li>
+                        <li><a href="#">Exclusive</a></li>
+                        <li><a href="#">Online exclusive</a></li>
+                        <li><a href="#">Back to school</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>Slippers</h4>
+                    <ul>
+                        <li><a href="#">Boys slippers</a></li>
+                        <li><a href="#">Girls slippers</a></li>
+                    </ul>
+                </div>
+
+                {% elif category.slug == 'brands' %}
+                <div class="mega-column">
+                    <h4>B</h4>
+                    <ul>
+                        <li><a href="#">Barbie</a></li>
+                        <li><a href="#">Beckett</a></li>
+                        <li><a href="#">Bluey</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>D</h4>
+                    <ul>
+                        <li><a href="#">Disney frozen</a></li>
+                        <li><a href="#">Disney stitch</a></li>
+                        <li><a href="#">Divaz</a></li>
+                        <li><a href="#">Dunlop</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>H</h4>
+                    <ul>
+                        <li><a href="#">Heart</a></li>
+                        <li><a href="#">Heavenly feet</a></li>
+                        <li><a href="#">Hobos</a></li>
+                        <li><a href="#">Hush puppies</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>K</h4>
+                    <ul>
+                        <li><a href="#">Kickers</a></li>
+                        <li><a href="#">Krush</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>M</h4>
+                    <ul>
+                        <li><a href="#">Marco</a></li>
+                        <li><a href="#">Lozzi</a></li>
+                        <li><a href="#">Marvel</a></li>
+                        <li><a href="#">Maya</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>P</h4>
+                    <ul>
+                        <li><a href="#">Paw patrol</a></li> 
+                        <li><a href="#">Pokemon</a></li> 
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>S</h4>
+                    <ul>
+                        <li><a href="#">Skechers</a></li>
+                        <li><a href="#">Soft line</a></li>
+                        <li><a href="#">Spider-man</a></li>
+                        <li><a href="#">Stone creek</a></li>
+                        <li><a href="#">Super mario</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>T</h4>
+                    <ul>
+                        <li><a href="#">Totes isotoner</a></li>
+                        <li><a href="#">Trespass</a></li>
+                        <li><a href="#">Truffle</a></li>
+                        <li><a href="#">Trux</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>T</h4>
+                    <ul>
+                        <li><a href="#">Walkright</a></li>
+                        <li><a href="#">Wednesday</a></li>
+                        <li><a href="#">Wrangler</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>C</h4>
+                    <ul>
+                        <li><a href="#">Comfort Plus</a></li>
+                        <li><a href="#">Comfy steps</a></li>
+                        <li><a href="#">Crocs</a></li>
+                        <li><a href="#">Cushion Walk</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>E</h4>
+                    <ul>
+                        <li><a href="#">Earth Works</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>G</h4>
+                    <ul>
+                        <li><a href="#">Gabbys Dollhouse</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>J</h4>
+                    <ul>
+                        <li><a href="#">Jo & Joe</a></li>
+                        <li><a href="#">Juju</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>L</h4>
+                    <ul>
+                        <li><a href="#">Lambretta</a></li>
+                        <li><a href="#">Lilley</a></li>
+                        <li><a href="#">Lotus</a></li>
+                        <li><a href="#">Lunar</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>O</h4>
+                    <ul>
+                        <li><a href="#">Original Penguin</a></li>
+                        <li><a href="#">Osaga</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>R</h4>
+                    <ul>
+                        <li><a href="#">Red fish</a></li>
+                        <li><a href="#">Red level</a></li>
+                        <li><a href="#">Regatta</a></li>
+                        <li><a href="#">Rieker</a></li>
+                        <li><a href="#">Rocket Dog</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>U</h4>
+                    <ul>
+                        <li><a href="#">Umbro</a></li>
+                    </ul>
+                </div>
+                <div class="mega-column">
+                    <h4>XL</h4>
+                    <ul>
+                        <li><a href="#">XL</a></li>>
+                    </ul>
+                </div>
+
+                {% elif category.slug == 'offers' %}
+                <div class="mega-column">
+                    <ul>
+                        <li><a href="#">View all</a></li>
+                        <li><a href="#">Two pairs for thousand</a></li>
+                        <li><a href="#">Clearance Outlet</a></li>
+                        <li><a href="#">Boots sale</a></li>
+                    </ul>
+                </div>
+                
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </nav>
+
+    <!-- Page Content -->
+    <main>
+
+        {% if messages %}
+            <div class="django-messages">
+                {% for message in messages %}
+                    <p class="django-message {{ message.tags }}">
+                        {{ message }}
+                    </p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-grid">
+
+            <div>
+                <h4>Contact Us</h4>
+                <p>We'd love to hear form you!</p>
+                <p>Landline: XXXXXXXXXXXX</p>
+                <p>WhatsApp: +91XXXXXXXXXX</p>
+                <p>Email: stepup@gmail.com</p>
+                <p>Address: 2/38, yyyyyyyyyyyy</p>
+                <p>Tenkasi, Tamilnadu, India.</p>
+            </div>
+
+            <div>
+                <h4>Shop</h4>
+                <a href="#newin">New in</a>
+                <a href="#women">Women</a>
+                <a href="#men">men</a>
+                <a href="#accessories">Accessories</a>
+                <a href="#heels">Heels</a>
+                <a href="{% url 'about' %}">About us</a>
+            </div>
+
+            <div>
+                <h4>Info</h4>
+                <a href="#search">Search</a>
+                <a href="#return">Return & Exchange</a>
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#shipping">Shipping Policy</a>
+                <a href="blogs">Blogs</a>
+            </div>
+
+            <div>
+                <h4>Social Media</h4>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="#" aria-label="YouTube">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                    <a href="#" aria-label="X">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>   
+                </div>  
+            </div>
+
+            <div>
+                <h4>Let's stay in touch!</h4>
+                <p>Sign up for exclusive offers, original stories, events and more.</p>
+                <form class="newsletter" action="#" method="get">
+                    <label for="newsletter-email">Email id</label>
+                    <input type="email" id="newsletter-email" placeholder="Enter your email" name="email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            © 2026 StepUp.in. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="{% static 'js/slider.js' %}"></script>
+    
+<script>
+(function () {
+    function updateCartBadge() {
+        let items = [];
+
+        try {
+            items = JSON.parse(
+                localStorage.getItem('stepup_cart') || '[]'
+            );
+            if (!Array.isArray(items)) items = [];
+        } catch {
+            items = [];
+        }
+
+        const count = items.reduce(
+            (total, item) => total + Math.max(0, Number(item.quantity) || 0),
+            0
+        );
+
+        document.querySelectorAll('[data-cart-count]').forEach(badge => {
+            badge.textContent = count;
+            badge.hidden = count === 0;
+        });
+    }
+
+    updateCartBadge();
+
+    window.addEventListener('storage', updateCartBadge);
+})();
+</script>
+
+{% block extra_js %}{% endblock %}
+
+
+</body>
+</html>

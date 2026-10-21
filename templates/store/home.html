@@ -1,0 +1,137 @@
+
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<section class="hero-image">
+    <div class="hero-slides">
+        <div class="hero-slide active" style="--slide-bg: url('{% static 'images/IMG_20250530_194707_093.jpg' %}')">
+            <img
+                src="{% static 'images/IMG_20250530_194707_093.jpg' %}"
+                alt="Red sports shoe"
+            >
+            <div class="image-label">
+                <span>Flat 50% sale kids show</span>
+                <a href="#trending" class="shop-now-btn">Shop Now </a>
+
+            </div>
+        </div>
+
+        <div class="hero-slide" style="--slide-bg: url('{% static 'images/IMG_20250530_195525_107.jpg' %}')">
+            <img
+                src="{% static 'images/IMG_20250530_195525_107.jpg' %}"
+                alt="Classic lifestyle sneaker"
+            >
+            <div class="image-label">
+                <span>Womens High Heel Flat 30% offer for your first order</span>
+                <a href="#trending" class="shop-now-btn">Shop Now </a>
+            </div>
+        </div>
+
+        <div class="hero-slide" style="--slide-bg: url('{% static 'images/IMG_20250530_195628_196.jpg' %}')">
+            <img
+                src="{% static 'images/IMG_20250530_195628_196.jpg' %}"
+                alt="Casual footwear collection"
+            >
+            <div class="image-label">
+                <span>Men's wear high heel office shoe only 40% discount today only</span>
+                <a href="#trending" class="shop-now-btn">Shop Now </a>
+            </div>
+        </div>
+
+        <div class="hero-slide" style="--slide-bg: url('{% static 'images/IMG_20250530_194909_340.jpg' %}')">
+            <img
+                src="{% static 'images/IMG_20250530_194909_340.jpg' %}"
+                alt="Modern sneaker style"
+            >
+            <div class="image-label" >
+                <span>Womens red color high heel for party for your first order get a free gift</span>
+                <a href="#trending" class="shop-now-btn">Shop Now </a>
+            </div>
+        </div>
+    </div>
+
+    <button class="slider-arrow prev" type="button"
+            aria-label="Previous slide" onclick="changeSlide(-1)">&#10094;</button>
+
+    <button class="slider-arrow next" type="button"
+            aria-label="Next slide" onclick="changeSlide(1)">&#10095;</button>
+
+    <div class="slider-dots">
+        <button class="slider-dot active" aria-label="Go to slide 1"
+                onclick="goToSlide(0)"></button>
+        <button class="slider-dot" aria-label="Go to slide 2"
+                onclick="goToSlide(1)"></button>
+        <button class="slider-dot" aria-label="Go to slide 3"
+                onclick="goToSlide(2)"></button>
+        <button class="slider-dot" aria-label="Go to slide 4"
+                onclick="goToSlide(3)"></button>
+    </div>
+</section>
+
+
+<section class="overview">
+    <h2>Overview</h2>
+    <p>
+        "Explore our curated selection of high-quality shoes for every occasion. From durable athletic shoes designed for
+        peak performance to stylish casual sneakers and elegant dress shoes, we offer a diverse range of footwear to suit your
+        needs. Our user-friendly interface makes it easy to browse our collection and find the perfect pair, while detailed
+        product descriptions and high-quality images ensure you make an informed decision. Join our community of style
+        and discover your next favorite shoe!"
+    </p>
+</section>
+
+<section class="category-section">
+    <h2>What are you looking for?</h2>
+
+    <div class="category-cards">
+        <a href="{% url 'category' 'men' %}" class="category-card">
+            <img src="{% static 'images/image.png' %}" alt="Men's shoes">
+            <h3>Men</h3>
+        </a>
+
+        <a href="{% url 'category' 'women' %}" class="category-card">
+            <img src="{% static 'images/image (2).png' %}" alt="Women's shoes">
+            <h3>Women</h3>
+        </a>
+
+        <a href="{% url 'category' 'kids' %}" class="category-card">
+            <img src="{% static 'images/image (3).png' %}" alt="Kids' shoes">
+            <h3>Kids</h3>
+        </a>
+    </div>
+</section>
+
+<section class="trending-section">
+    <h2>New &amp; Trending</h2>
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>MRP: ₹{{ product.price }}</p>
+        </div>
+        {% empty %}
+        <p>Our latest collection is coming soon.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- View All Button -->
+<div class="view-all-container">
+    <a href="{% url 'category' 'offers' %}" class="view-all-btn">View all</a>
+</div>
+
+
+<!-- Discount Offer Box -->
+<section class="discount-offer">
+    <span class="gift-icon">🎁</span>
+    <h2>Get your first order with free gift</h2>
+    <span class="gift-icon">🎁</span>
+    <h2>&amp; 50 % offer</h2>
+    <span class="offer-icon">🌟</span>
+</section>
+
+{% endblock %}

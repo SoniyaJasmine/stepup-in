@@ -1,0 +1,60 @@
+
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Register | StepUp.in{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card">
+
+        <div class="auth-tabs">
+            <a href="{% url 'login' %}" class="auth-tab">Log in</a>
+            <a href="{% url 'register' %}" class="auth-tab active">Register</a>
+        </div>
+
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+
+            <label for="email">Email id</label>
+            <input type="email" id="email" name="email"
+                   placeholder="Enter your email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password"
+                   placeholder="Create a password" required>
+
+            <div class="terms-checkbox">
+                <input type="checkbox" id="agree_terms"
+                    name="agree_terms" required>
+                <label for="agree_terms">
+                    I agree to the
+                    <a href="#">Terms and Conditions</a>
+                    and
+                    <a href="#">Privacy Policy</a>
+                </label>
+            </div>
+
+            <button type="submit" class="auth-submit">Register</button>
+        </form>
+
+        {% for message in messages %}
+            {% if message == "account_created" %}
+                <div class="success-overlay">
+                    <div class="success-popup">
+                        <div class="success-icon">✓</div>
+                        <h2>Congratulations!</h2>
+                        <p>Your account has been created successfully.</p>
+                        <a href="{% url 'home' %}" class="success-close">
+                            Close
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <p class="auth-message">{{ message }}</p>
+            {% endif %}
+        {% endfor %}
+
+    </div>
+</section>
+{% endblock %}

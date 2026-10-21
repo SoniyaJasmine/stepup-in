@@ -1,0 +1,176 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Track Order | StepUp.in{% endblock %}
+
+
+{% block content %}
+<section class="tracking-page">
+    <main class="tracking-card">
+
+        <header class="tracking-heading">
+            <a href="{% url 'order_success' %}"
+               class="tracking-back" aria-label="Back to order confirmation">‹</a>
+            <h1>Your Order</h1>
+        </header>
+
+        <div class="tracking-meta">
+            <span>Order no <strong id="trackingOrderNumber">-</strong></span>
+            <span id="trackingPayment">Cash on Delivery</span>
+        </div>
+
+        <section class="tracking-product">
+            <img id="trackingImage" src="" alt="Ordered shoe" hidden>
+
+            <div class="tracking-product-info">
+                <h2 id="trackingProductName">Loading order...</h2>
+                <p id="trackingProductType"></p>
+                <p id="trackingProductOptions"></p>
+                <p class="delivery-estimate" id="trackingEstimate">
+                    Delivery estimate will be updated.
+                </p>
+            </div>
+        </section>
+
+        <section class="tracking-timeline" aria-label="Order tracking status">
+
+            <div class="timeline-step">
+                <div class="timeline-marker">🛒</div>
+                <div class="timeline-content">
+                    <h3>Order Placed</h3>
+                    <p id="placedDate">Order received</p>
+                </div>
+            </div>
+
+            <div class="timeline-step">
+                <div class="timeline-marker">🏠</div>
+                <div class="timeline-content">
+                    <h3>Order Dispatched</h3>
+                    <p id="dispatchStatus">Awaiting dispatch</p>
+                </div>
+            </div>
+
+            <div class="timeline-step pending">
+                <div class="timeline-marker">🚚</div>
+                <div class="timeline-content">
+                    <h3>Order in transit</h3>
+                    <p id="transitStatus">Awaiting shipment</p>
+                </div>
+            </div>
+
+            <div class="timeline-step pending">
+                <div class="timeline-marker">👍</div>
+                <div class="timeline-content">
+                    <h3>Delivered successfully</h3>
+                    <p id="deliveredStatus">Not delivered yet</p>
+                </div>
+            </div>
+
+        </section>
+    </main>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    let order = null;
+
+    try {
+        order = JSON.parse(
+            sessionStorage.getItem("stepup_order") || "null"
+        );
+    } catch (error) {
+        console.error("Unable to load order details:", error);
+    }
+
+    // Fallback for testing if no order record has been created yet.
+    if (!order) {
+        try {
+            const product = JSON.parse(
+                sessionStorage.getItem("stepup_buy_now") || "null"
+            );
+
+            if (product) {
+                order = {
+                    order_number: "DEMO",
+                    product: product,
+                    payment_method: "COD",
+                    placed_at: new Date().toISOString(),
+                    status: "placed"
+                };
+            }
+        } catch (error) {
+            console.error("Unable to load product:", error);
+        }
+    }
+
+    if (!order) {
+        document.getElementById("trackingProductName").textContent =
+            "No order details found";
+        document.getElementById("trackingEstimate").textContent =
+            "Please return to checkout and place a test order.";
+        return;
+    }
+
+    const product = order.product || order;
+
+    document.getElementById("trackingOrderNumber").textContent =
+        "#" + (order.order_number || "DEMO");
+
+    document.getElementById("trackingPayment").textContent =
+        order.payment_method === "COD"
+            ? "Cash on Delivery"
+            : (order.payment_method || "Payment pending");
+
+    document.getElementById("trackingProductName").textContent =
+        product.name || "Selected shoe";
+
+    document.getElementById("trackingProductType").textContent =
+        product.product_type || "";
+
+    document.getElementById("trackingProductOptions").textContent =
+        "Size: " + (product.size || "-") +
+        " | Colour: " + (product.color || "-") +
+        " | Qty: " + (product.quantity || 1);
+
+    const image = document.getElementById("trackingImage");
+
+    if (product.image) {
+        image.src = product.image;
+        image.hidden = false;
+    }
+
+    if (order.placed_at) {
+        const date = new Date(order.placed_at);
+
+        document.getElementById("placedDate").textContent =
+            date.toLocaleDateString("en-IN", {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            }) + " | " + date.toLocaleTimeString("en-IN", {
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+    }
+
+    const status = order.status || "placed";
+
+    if (status === "dispatched" || status === "in_transit" ||
+        status === "delivered") {
+        document.getElementById("dispatchStatus").textContent =
+            "Order dispatched";
+    }
+
+    if (status === "in_transit" || status === "delivered") {
+        document.getElementById("transitStatus").textContent =
+            "Shipment in transit";
+    }
+
+    if (status === "delivered") {
+        document.getElementById("deliveredStatus").textContent =
+            "Delivered successfully";
+    }
+})();
+</script>
+{% endblock %}

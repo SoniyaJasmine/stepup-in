@@ -1,0 +1,211 @@
+
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Your Cart | StepUp.in{% endblock %}
+
+{% block content %}
+
+<section class="cart-page">
+
+    <h1>Your Cart</h1>
+
+    <div class="delivery-banner">
+        <strong>Free & Fast arriving</strong>
+        <span>by Monday</span>
+        <span>Order within 23 hours, 53 minutes, 50 seconds</span>
+    </div>
+
+    <div id="cartItems"></div>
+
+    <div class="cart-summary">
+        <p class="summary-heading">Summary</p>
+
+        <div class="summary-row">
+            <span>Total</span>
+            <span id="cartTotal">₹0</span>
+        </div>
+
+        <div class="summary-row">
+            <span>Delivery</span>
+            <span>Free</span>
+        </div>
+
+        <div class="delivery-information">
+            <a href="{% url 'contact' %}">
+                Delivery & return information ♧
+            </a>
+        </div>
+    </div>
+
+    <div class="cart-checkout-section">
+        <a href="{% url 'checkout' %}" class="secure-checkout">
+            ♙ &nbsp; Checkout Securely
+        </a>
+
+        <p class="express-title">Express Checkout</p>
+
+        <button type="button" class="payment-option google-pay"
+                onclick="showPaymentMessage()">
+            <span class="google-g">G</span> Pay
+        </button>
+
+        <button type="button" class="payment-option paypal"
+                onclick="showPaymentMessage()">
+            PayPal
+        </button>
+
+        <button type="button" class="payment-option clearpay"
+                onclick="showPaymentMessage()">
+            clearpay
+        </button>
+
+        <button type="button" class="payment-option klarna"
+                onclick="showPaymentMessage()">
+            Klarna
+        </button>
+
+        <p id="paymentMessage"></p>
+    </div>
+
+</section>
+
+
+<script>
+function readCart() {
+    try {
+        const cart = JSON.parse(localStorage.getItem('stepup_cart') || '[]');
+        return Array.isArray(cart) ? cart : [];
+    } catch {
+        return [];
+    }
+}
+
+function safeText(value) {
+    const element = document.createElement('span');
+    element.textContent = String(value ?? '');
+    return element.innerHTML;
+}
+
+function renderCart() {
+    const items = readCart();
+    const container = document.getElementById('cartItems');
+
+    if (!items.length) {
+        container.innerHTML = `
+            <div class="empty-cart">
+                <p>Your cart is empty.</p>
+                <a class="continue-shopping" href="{% url 'home' %}">
+                    Continue Shopping
+                </a>
+            </div>`;
+
+        document.getElementById('cartTotal').textContent = '₹0';
+        return;
+    }
+
+    container.innerHTML = items.map((item, index) => `
+        <article class="cart-item">
+            <img class="cart-product-image"
+                 src="${safeText(item.image || '')}"
+                 alt="${safeText(item.name)}">
+
+            <div class="cart-product-info">
+                <h3>${safeText(item.name)}</h3>
+                <p>${safeText(item.product_type || '')}</p>
+                <p>MRP ₹${Number(item.price).toLocaleString('en-IN')}</p>
+            </div>
+
+            <div class="cart-select">
+            <div>
+                <select aria-label="Shoe size"
+                        onchange="updateSize(${index}, this.value)">
+                    ${['40','41','42','43','44','45'].map(size => `
+                        <option value="${size}"
+                            ${String(item.size) === size ? 'selected' : ''}>
+                            Size (${size})
+                        </option>
+                    `).join('')}
+                </select>
+
+                <select aria-label="Quantity"
+                        onchange="updateQuantity(${index}, this.value)">
+                    ${Array.from(
+                        {length: Math.max(1, Math.min(10, Number(item.stock || 10)))},
+                        (_, i) => i + 1
+                    ).map(quantity => `
+                        <option value="${quantity}"
+                            ${Number(item.quantity) === quantity ? 'selected' : ''}>
+                            Quantity (${quantity})
+                        </option>
+                    `).join('')}
+                </select>
+            </div>
+
+            <div>
+                <button class="cart-remove"
+                        onclick="removeItem(${index})">
+                    Remove ▣
+                </button>
+            </div>
+            </div>
+        </article>
+    `).join('');
+
+    const total = items.reduce(
+        (sum, item) => sum + Number(item.price) * Number(item.quantity), 0
+    );
+
+    document.getElementById('cartTotal').textContent =
+        '₹' + total.toLocaleString('en-IN');
+}
+
+function updateQuantity(index, quantity) {
+    const items = readCart();
+    if (!items[index]) return;
+
+    items[index].quantity = Number(quantity);
+    localStorage.setItem('stepup_cart', JSON.stringify(items));
+    renderCart();
+    updateCartBadge();
+}
+
+function updateSize(index, size) {
+    const items = readCart();
+    if (!items[index]) return;
+
+    items[index].size = size;
+    localStorage.setItem('stepup_cart', JSON.stringify(items));
+    renderCart();
+}
+
+function removeItem(index) {
+    const items = readCart();
+    items.splice(index, 1);
+    localStorage.setItem('stepup_cart', JSON.stringify(items));
+    renderCart();
+    updateCartBadge();
+}
+
+function showPaymentMessage() {
+    document.getElementById('paymentMessage').textContent =
+        'Express payment will be available after payment integration.';
+}
+
+function updateCartBadge() {
+    const items = readCart();
+    const count = items.reduce(
+        (sum, item) => sum + Number(item.quantity || 0), 0
+    );
+
+    document.querySelectorAll('[data-cart-count]').forEach(badge => {
+        badge.textContent = count;
+        badge.hidden = count === 0;
+    });
+}
+
+renderCart();
+updateCartBadge();
+</script>
+
+{% endblock %}

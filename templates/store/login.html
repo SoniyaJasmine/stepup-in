@@ -1,0 +1,63 @@
+
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Login | StepUp.in{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card">
+
+        <div class="auth-tabs">
+            <a href="{% url 'login' %}" class="auth-tab active">Log in</a>
+            <a href="{% url 'register' %}" class="auth-tab">Register</a>
+        </div>
+
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+
+            <label for="email">Email id</label>
+            <input type="email" id="email" name="email"
+                   placeholder="Enter your email" required>
+
+            <label for="password">Password</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" name="password"
+                       placeholder="Enter your password" required
+                        autocomplete="current-password" required>
+>
+                <button type="button" class="toggle-password"
+                        onclick="togglePassword('password', this)"
+                        aria-label="Show password">◉</button>
+            </div>
+
+            <div class="forgot-password">
+                <a href="{% url 'password_reset' %}">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="auth-submit">Log In</button>
+        </form>
+
+        <h2 class="auth-or">Or</h2>
+
+        <button type="button" class="google-button"
+                onclick="alert('Google login setup is required.')">
+            Continue with Google <span class="google-g">G</span>
+        </button>
+
+        <p class="auth-switch">
+            Don’t have an account?
+            <a href="{% url 'register' %}">Register</a>
+        </p>
+
+    </div>
+</section>
+
+<script>
+function togglePassword(id, button) {
+    const field = document.getElementById(id);
+    field.type = field.type === 'password' ? 'text' : 'password';
+    button.textContent = field.type === 'password' ? '◉' : '◎';
+}
+</script>
+{% endblock %}

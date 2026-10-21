@@ -1,0 +1,44 @@
+ {% extends 'store/base.html' %}
+
+{% block title %}Order Confirmed | StepUp.in{% endblock %}
+
+
+{% block content %}
+<section class="success-page">
+    <div class="success-card">
+
+        <div class="success-icon" aria-label="Success">✓</div>
+
+        <h1>Thankyou for your ordering</h1>
+
+        <p class="success-message">
+            We've received your order will ship in 5-7 business days.
+        </p>
+
+        <p class="order-number">
+            Your order number is <strong id="successOrderNumber">#Bh23000006</strong>
+        </p>
+
+        <div class="success-actions">
+            <a href="{% url 'view_order' %}" class="success-btn">
+                View Order
+            </a>
+            <a href="{% url 'track_order' %}" class="success-btn track">
+                Track Order
+            </a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
+
+<script>
+const savedOrder = JSON.parse(
+    sessionStorage.getItem("stepup_order") || "null"
+);
+
+if (savedOrder) {
+    document.getElementById("successOrderNumber").textContent =
+        "#" + savedOrder.order_number;
+}
+</script>

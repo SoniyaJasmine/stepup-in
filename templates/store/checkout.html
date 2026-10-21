@@ -1,0 +1,286 @@
+
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Checkout | StepUp.in{% endblock %}
+
+{% block content %}
+
+<header class="checkout-title">Checkout</header>
+
+    <main class="checkout-layout">
+        <aside class="order-summary">
+            <h3>Order Summary</h3>
+
+            <div class="product-info">
+                <img id="checkoutImage" src="" alt="Selected shoe">
+                <div class="product-details">
+                    <h4 id="checkoutName">Loading product...</h4>
+                    <div class="summary-line">
+                        <span>Size</span><span id="checkoutSize">-</span>
+                    </div>
+                    <div class="summary-line">
+                        <span>Colour</span><span id="checkoutColor">-</span>
+                    </div>
+                    <div class="summary-line">
+                        <span>Quantity</span><span id="checkoutQuantity">1</span>
+                    </div>
+                    <div class="summary-line">
+                        <span>MRP</span><span id="checkoutPrice">₹0</span>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="summary-divider">
+
+            <div class="summary-line">
+                <span>Amount</span><span id="checkoutAmount">₹0</span>
+            </div>
+            <div class="summary-line">
+                <span>Delivery fees</span><span>Free</span>
+            </div>
+
+            <hr class="summary-divider">
+
+            <div class="summary-line total-line">
+                <span>Total</span><span id="checkoutTotal">₹0</span>
+            </div>
+        </aside>
+
+        <section class="checkout-form-area">
+            <h2>Complete Your Order</h2>
+
+            <form id="checkoutForm">
+                <h3 class="section-heading">Personal Details</h3>
+
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="firstName">First Name</label>
+                        <input id="firstName" name="first_name" required
+                               placeholder="Enter your first name">
+                    </div>
+                    <div class="field">
+                        <label for="lastName">Last Name</label>
+                        <input id="lastName" name="last_name" required
+                               placeholder="Enter your last name">
+                    </div>
+                    <div class="field">
+                        <label for="email">Email id</label>
+                        <input id="email" name="email" type="email" required
+                               placeholder="Enter your email">
+                    </div>
+                    <div class="field">
+                        <label for="phone">Phone Number</label>
+                        <input id="phone" name="phone" type="tel" required
+                               pattern="[0-9]{10}" maxlength="10"
+                               placeholder="Enter your phone number">
+                    </div>
+                </div>
+
+                <h3 class="section-heading">Payment Details</h3>
+
+                <div class="payment-logos" aria-label="Payment methods">
+
+                    <img src="{% static 'images/image (1).png' %}"
+                        alt="Secure checkout and payment options">
+                    <img src="{% static 'images/image (44).png' %}"
+                        alt="Secure checkout and payment options">
+                    <img src="{% static 'images/image (47).png' %}"
+                        alt="Secure checkout and payment options">
+                    <img src="{% static 'images/image (48).png' %}"
+                        alt="Secure checkout and payment options">
+                    <img src="{% static 'images/image (49).png' %}"
+                        alt="Secure checkout and payment options">
+                </div>
+
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="cardHolder">Card Holder Name</label>
+                        <input id="cardHolder" placeholder="Enter name">
+                    </div>
+                    <div class="field">
+                        <label for="cardNumber">Card Number</label>
+                        <input id="cardNumber" inputmode="numeric"
+                               autocomplete="cc-number"
+                               placeholder="Enter card number">
+                    </div>
+                    <div class="field">
+                        <label for="cvv">CVV</label>
+                        <input id="cvv" inputmode="numeric"
+                               autocomplete="cc-csc" maxlength="4"
+                               placeholder="Example: 439">
+                    </div>
+                    <div class="field">
+                        <label for="expiry">Expiration Date</label>
+                        <input id="expiry" placeholder="MM/YY"
+                               autocomplete="cc-exp">
+                    </div>
+                </div>
+
+                <label class="cod">
+                    <input type="radio" name="payment_method"
+                           value="COD" checked>
+                    Cash on Delivery
+                </label>
+
+                <h3 class="section-heading">Shipping Address</h3>
+
+                <div class="form-grid">
+                    <div class="field full-width">
+                        <label for="address">Address Line 1</label>
+                        <input id="address" name="address" required
+                               placeholder="Enter your address">
+                    </div>
+                    <div class="field">
+                        <label for="city">City</label>
+                        <input id="city" name="city" required
+                               placeholder="Your city">
+                    </div>
+                    <div class="field">
+                        <label for="state">State</label>
+                        <input id="state" name="state" required
+                               placeholder="Your state">
+                    </div>
+                    <div class="field">
+                        <label for="landmark">Landmark</label>
+                        <input id="landmark" name="landmark"
+                               placeholder="Any landmark">
+                    </div>
+                    <div class="field">
+                        <label for="pincode">Pincode</label>
+                        <input id="pincode" name="pincode" required
+                               inputmode="numeric" pattern="[0-9]{6}"
+                               maxlength="6" placeholder="Pincode">
+                    </div>
+                </div>
+
+                <div class="checkout-actions">
+                    <button class="cancel-btn" type="button"
+                            onclick="history.back()">Cancel</button>
+                    <button class="order-btn" type="submit">Order Now</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+{% endblock %}
+
+{% block extra_js %}
+
+ <script>
+    console.log("CHECKOUT SCRIPT STARTED"); 
+        
+function formatRupees(value) {
+    return "₹" + Number(value || 0).toLocaleString("en-IN", {
+        maximumFractionDigits: 2
+    });
+}
+
+let checkoutProduct = null;
+
+try {
+    const savedProduct = sessionStorage.getItem("stepup_buy_now");
+    console.log("Current page:", window.location.href);
+    console.log("Saved checkout product:", savedProduct);
+
+    if (savedProduct) {
+        checkoutProduct = JSON.parse(savedProduct);
+    }
+        console.log("Parsed checkout product:", checkoutProduct);
+
+} catch (error) {
+    console.error("Checkout product error:", error);
+}
+
+const checkoutForm = document.getElementById("checkoutForm");
+console.log("Form found:", checkoutForm);
+console.log("Submit handler setup reached");
+
+if (checkoutProduct) {
+    const price = Number(checkoutProduct.price || 0);
+    const quantity = Number(checkoutProduct.quantity || 1);
+    const total = price * quantity;
+
+    document.getElementById("checkoutName").textContent =
+        checkoutProduct.name || "Selected shoe";
+
+    document.getElementById("checkoutSize").textContent =
+        checkoutProduct.size || "-";
+
+    document.getElementById("checkoutColor").textContent =
+        checkoutProduct.color || "-";
+
+    document.getElementById("checkoutQuantity").textContent = quantity;
+
+    document.getElementById("checkoutPrice").textContent =
+        formatRupees(price);
+
+    document.getElementById("checkoutAmount").textContent =
+        formatRupees(total);
+
+    document.getElementById("checkoutTotal").textContent =
+        formatRupees(total);
+
+    const image = document.getElementById("checkoutImage");
+    image.src = checkoutProduct.image || "";
+    image.hidden = !checkoutProduct.image;
+
+} else {
+    document.getElementById("checkoutName").textContent =
+        "No product selected. Please return to the product page and click Buy Now.";
+
+    document.getElementById("checkoutImage").hidden = true;
+
+    checkoutForm.hidden = true;
+}
+
+
+checkoutForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    console.log("STEP 1: ORDER SUBMIT EVENT FIRED");
+
+    console.log("ORDER BUTTON CLICKED - SUBMIT STARTED");
+    console.log("Checkout product:", checkoutProduct);
+
+    if (!checkoutProduct) {
+        alert("Please select a product first.");
+        return;
+    }
+
+    if (!checkoutForm.reportValidity()) {
+        return;
+    }
+
+    const order = {
+        order_number: "SU" + Date.now().toString().slice(-8),
+        product: checkoutProduct,
+        payment_method:
+            checkoutForm.querySelector(
+                'input[name="payment_method"]:checked'
+            )?.value || "COD",
+        placed_at: new Date().toISOString(),
+        status: "placed"
+    };
+
+    // Save order details before navigating
+    sessionStorage.setItem(
+        "stepup_order",
+        JSON.stringify(order)
+    );
+    console.log("CHECK SAVED ORDER:", sessionStorage.getItem("stepup_order"));
+    console.log("Saved order:", sessionStorage.getItem("stepup_order"));
+
+
+    // Navigate to successful-order page
+    window.location.href = "{% url 'order_success' %}";
+});
+console.log(
+    "Submit handler test:",
+    checkoutForm ? "Form exists" : "Form missing"
+);
+
+
+
+    </script>
+
+{% endblock %}

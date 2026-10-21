@@ -1,0 +1,318 @@
+
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} | StepUp.in{% endblock %}
+
+{% block content %}
+
+<section class="shoe-detail-page">
+
+    <div class="shoe-detail-layout">
+
+        <!-- LEFT: Large product image gallery -->
+        <div class="shoe-gallery">
+            <div class="shoe-image-grid">
+
+                {% if product.image %}
+                <button class="shoe-gallery-image large-image"
+                        onclick="showImage(this)">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                </button>
+                {% endif %}
+
+                {% for extra_image in product.images.all %}
+                <button class="shoe-gallery-image"
+                        onclick="showImage(this)">
+                    <img src="{{ extra_image.image.url }}"
+                         alt="{{ product.name }} view {{ forloop.counter }}">
+                </button>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <!-- RIGHT: Product information and purchase options -->
+        <div class="shoe-info">
+
+            <h1>{{ product.name }}</h1>
+            <p class="shoe-subtitle">{{ product.product_type }}</p>
+
+            <p class="shoe-price">MRP ₹{{ product.price }}</p>
+
+            <div class="shoe-rating">
+                <span>★★★★★</span>
+                <small>{{ product.rating }}.0 (Reviews)</small>
+            </div>
+
+            <div class="shoe-color-section">
+                <p>Color: <span id="selectedColor">{{ product.color_list.0 }}</span></p>
+
+                <div class="shoe-color-options">
+                    {% for color in product.color_list %}
+                    <button type="button"
+                            class="shoe-color {% if forloop.first %}active{% endif %}"
+                            title="{{ color }}"
+                            aria-label="{{ color }}"
+                            style="background-color: {{ color|lower }};"
+                            onclick="chooseColor(this, '{{ color|escapejs }}')">
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="shoe-size-section">
+                <p>Select Size</p>
+                <div class="shoe-size-options">
+                    {% for size in "40,41,42,43,44,45"|cut:" "|make_list %}
+                    {% endfor %}
+                    <button type="button" onclick="chooseSize(this)">40</button>
+                    <button type="button" onclick="chooseSize(this)">41</button>
+                    <button type="button" onclick="chooseSize(this)">42</button>
+                    <button type="button" onclick="chooseSize(this)">43</button>
+                    <button type="button" onclick="chooseSize(this)">44</button>
+                    <button type="button" onclick="chooseSize(this)">45</button>
+                </div>
+                <p id="sizeError" class="shoe-error"></p>
+            </div>
+
+            <div class="shoe-quantity">
+                <label for="shoeQuantity">Quantity</label>
+                <div>
+                    <button type="button" onclick="adjustQuantity(-1)">−</button>
+                    <input id="shoeQuantity" type="number" value="1"
+                           min="1" max="{{ product.stock }}" readonly>
+                    <button type="button" onclick="adjustQuantity(1)">+</button>
+                </div>
+            </div>
+
+            <p class="shoe-stock">
+                {% if product.stock > 0 %}
+                    In stock
+                {% else %}
+                    Out of stock
+                {% endif %}
+            </p>
+
+            <div class="shoe-buy-actions">
+                <button type="button" onclick="addShoeToCart()"
+                        {% if product.stock == 0 %}disabled{% endif %}>
+                    Add to Cart
+                </button>
+
+                <button type="button" onclick="buyShoeNow()"
+                        {% if product.stock == 0 %}disabled{% endif %}>
+                    Buy Now
+                </button>
+            </div>
+
+            <!-- Your secure-checkout-options image -->
+            <div class="secure-payment-image">
+                <img src="{% static 'images/image (47).png' %}"
+                     alt="Secure checkout and payment options">
+                <img src="{% static 'images/image (45).png' %}"
+                     alt="Secure checkout and payment options">
+                <img src="{% static 'images/image (44).png' %}"
+                     alt="Secure checkout and payment options">
+                <img src="{% static 'images/image (1).png' %}"
+                     alt="Secure checkout and payment options">
+            </div>
+
+            <div class="shoe-delivery-box">
+                <p>COD Available</p>
+                <p>24 Hour Dispatch</p>
+                <p>7 Days Easy Return & Exchange</p>
+            </div>
+
+            <div class="shoe-description">
+                <h3>Product Details</h3>
+                {% if product.description %}
+                    <p>{{ product.description|linebreaksbr }}</p>
+                {% else %}
+                    <p>Product details are not available.</p>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+    <!-- REVIEWS -->
+    <section class="shoe-reviews">
+        <h3>Reviews:</h3>
+
+        <div class="shoe-review-card">
+            <div class="card-review">
+                <div class="review-person">
+                    <div class="review-avatar">B</div>
+                    <div>
+                        <strong>Reviewed by Beverley</strong>
+                        <small>From: Weymouth</small>
+                    </div>
+                </div>
+
+                <div class="review-scores">
+                    <p>Fit <span>★★★★★</span></p>
+                    <p>Comfort <span>★★★★★</span></p>
+                    <p>Value for Money <span>★★★★★</span></p>
+                    <p>Quality <span>★★★★★</span></p>
+                </div>
+            </div>
+
+            <div class="review-feedback">
+                <strong>Super Looking</strong>
+                <p class="review-stars">Overall rating ★★★★★</p>
+                <p>Very pleased with the super fast delivery and packaging Shoes are very good quality and superb See more.....</p>
+                <p>Beverley would recommend this product ✓</p>
+            </div>
+        </div>
+
+        <div class="shoe-review-card">
+            <div class="card-review">
+                <div class="review-person">
+                    <div class="review-avatar">R</div>
+                    <div>
+                        <strong>Reviewed by Ramya</strong>
+                        <small>From: Harland</small>
+                    </div>
+                </div>
+
+                <div class="review-scores">
+                    <p>Fit <span>★★★★★</span></p>
+                    <p>Comfort <span>★★★★☆</span></p>
+                    <p>Value for Money <span>★★★★★</span></p>
+                    <p>Quality <span>★★★★★</span></p>
+                </div>
+            </div>
+
+            <div class="review-feedback">
+                <strong>Super Looking</strong>
+                <p class="review-stars">Overall rating ★★★★★</p>
+                <p>Very pleased with the super fast delivery and packaging Shoes are very good quality and superb See more.....</p>
+                <p>Ramya would recommend this product ✓</p>
+            </div>
+        </div>
+    </section>
+
+</section>
+
+<script>
+let selectedShoeSize = null;
+let selectedShoeColor = "{{ product.color_list.0|default:''|escapejs }}";
+
+function showImage(button) {
+    document.querySelectorAll('.shoe-gallery-image').forEach(image => {
+        image.classList.remove('active');
+    });
+    button.classList.add('active');
+
+    // Keep the clicked image prominent in the gallery.
+    const gallery = button.closest('.shoe-image-grid');
+    gallery.prepend(button);
+}
+
+function chooseSize(button) {
+    document.querySelectorAll('.shoe-size-options button').forEach(item => {
+        item.classList.remove('active');
+    });
+    button.classList.add('active');
+    selectedShoeSize = button.textContent.trim();
+    document.getElementById('sizeError').textContent = '';
+}
+
+function chooseColor(button, color) {
+    document.querySelectorAll('.shoe-color').forEach(item => {
+        item.classList.remove('active');
+    });
+    button.classList.add('active');
+    selectedShoeColor = color;
+    document.getElementById('selectedColor').textContent = color;
+}
+
+function adjustQuantity(change) {
+    const input = document.getElementById('shoeQuantity');
+    const max = Number(input.max);
+    input.value = Math.max(1, Math.min(max, Number(input.value) + change));
+}
+
+function getShoeSelection() {
+    if (!selectedShoeSize) {
+        document.getElementById('sizeError').textContent =
+            'Please select your shoe size.';
+        return null;
+    }
+
+    return {
+        product_id: {{ product.id }},
+        name: "{{ product.name|escapejs }}",
+        price: "{{ product.price }}",
+        image: "{{ product.image.url|escapejs }}",
+        product_type: "{{ product.product_type|escapejs }}",
+        stock: {{ product.stock }},
+        size: selectedShoeSize,
+        color: selectedShoeColor,
+        quantity: Number(document.getElementById('shoeQuantity').value)
+    };
+}
+
+
+function addShoeToCart() {
+    const item = getShoeSelection();
+    if (!item) return;
+
+    let cart = [];
+
+    try {
+        cart = JSON.parse(localStorage.getItem('stepup_cart') || '[]');
+        if (!Array.isArray(cart)) cart = [];
+    } catch {
+        cart = [];
+    }
+
+    const existing = cart.find(product =>
+        String(product.product_id ?? product.id) === String(item.product_id) &&
+        String(product.size) === String(item.size) &&
+        String(product.color || '') === String(item.color || '')
+    );
+
+    if (existing) {
+        const newQuantity = Number(existing.quantity || 0) + item.quantity;
+
+        if (newQuantity > item.stock) {
+            alert('Maximum available stock reached.');
+            return;
+        }
+
+        existing.quantity = newQuantity;
+    } else {
+        if (item.quantity > item.stock) {
+            alert('Requested quantity exceeds available stock.');
+            return;
+        }
+
+        cart.push(item);
+    }
+
+    localStorage.setItem('stepup_cart', JSON.stringify(cart));
+
+    window.location.href = "{% url 'cart' %}";
+}
+
+
+
+function buyShoeNow() {
+    const item = getShoeSelection();
+
+    if (!item) {
+        return;
+    }
+
+    sessionStorage.setItem("stepup_buy_now", JSON.stringify(item));
+
+    console.log("Product saved for checkout:", item);
+
+    window.location.href = "{% url 'checkout' %}";
+}
+
+</script>
+
+{% endblock %}
