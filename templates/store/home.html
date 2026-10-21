@@ -104,20 +104,39 @@
     </div>
 </section>
 
+
+
 <section class="trending-section">
     <h2>New &amp; Trending</h2>
+
     <div class="product-grid">
         {% for product in products %}
         <div class="product-card">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+
+            <img src="{{ product.image.url }}"
+                 alt="{{ product.name }}">
+
             <h3>{{ product.name }}</h3>
             <p>MRP: ₹{{ product.price }}</p>
+
+            <button
+                type="button"
+                class="home-buy-now-btn"
+                data-id="{{ product.id }}"
+                data-name="{{ product.name }}"
+                data-price="{{ product.price }}"
+                data-image="{{ product.image.url }}">
+                Buy Now
+            </button>
+
         </div>
         {% empty %}
         <p>Our latest collection is coming soon.</p>
         {% endfor %}
     </div>
 </section>
+
+
 
 <!-- View All Button -->
 <div class="view-all-container">
@@ -134,4 +153,43 @@
     <span class="offer-icon">🌟</span>
 </section>
 
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".home-buy-now-btn").forEach(function (button) {
+        button.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const product = {
+                id: button.dataset.id,
+                name: button.dataset.name,
+                price: Number(button.dataset.price),
+                image: button.dataset.image,
+                quantity: 1,
+                size: "40",
+                color: "",
+                product_type: ""
+            };
+
+            console.log("Buy Now clicked:", product);
+
+            sessionStorage.setItem(
+                "stepup_buy_now",
+                JSON.stringify(product)
+            );
+
+            sessionStorage.removeItem("stepup_checkout_cart");
+            sessionStorage.removeItem("stepup_express_payment");
+
+            window.location.assign("{% url 'checkout' %}");
+        });
+    });
+});
+</script>
+
+
 {% endblock %}
+
+
+

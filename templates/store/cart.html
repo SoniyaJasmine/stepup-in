@@ -47,7 +47,7 @@
         <p class="express-title">Express Checkout</p>
 
         <button type="button" class="payment-option google-pay"
-                onclick="showPaymentMessage()">
+                onclick="expressCheckout()">
             <span class="google-g">G</span> Pay
         </button>
 
@@ -217,6 +217,25 @@ function goToCheckout() {
     sessionStorage.setItem('stepup_checkout_cart', JSON.stringify(items));
 
     // Open the Django checkout page
+    window.location.href = "{% url 'checkout' %}";
+}
+
+
+function expressCheckout() {
+    const items = readCart();
+
+    if (!items.length) {
+        alert('Your cart is empty. Please add a product first.');
+        return;
+    }
+
+    // Pass cart items to the checkout page
+    sessionStorage.setItem(
+        'stepup_checkout_cart',
+        JSON.stringify(items)
+    );
+
+    // Open checkout, where Razorpay payment is integrated
     window.location.href = "{% url 'checkout' %}";
 }
 

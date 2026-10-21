@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get(
     "django-insecure-local-development-only-key"
 )
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'stepup-in-qa8o.onrender.com',
@@ -152,5 +152,5 @@ STORAGES = {
     },
 }
 
-RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '')
-RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', '')
+RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', 'rzp_test_TqdNjw0ExDFM6U')
+RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', '2XUTCKVyQDDBx7Ys73xhwMQ5')

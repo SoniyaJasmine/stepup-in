@@ -335,7 +335,7 @@ def create_razorpay_order(request):
         })
 
         return JsonResponse({
-            'key_id': settings.RAZORPAY_KEY_ID,
+            'key': settings.RAZORPAY_KEY_ID,
             'order_id': order['id'],
             'amount': order['amount'],
             'currency': order['currency'],
@@ -384,7 +384,7 @@ def verify_razorpay_payment(request):
         # amount, currency and payment status on the server before
         # marking the order as paid.
         return JsonResponse({
-            'verified': True,
+            'success': True,
             'message': 'Payment signature verified.'
         })
 

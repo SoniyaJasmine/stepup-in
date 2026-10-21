@@ -51,6 +51,7 @@
             <h2>Complete Your Order</h2>
 
             <form id="checkoutForm">
+                {% csrf_token %}
                 <h3 class="section-heading">Personal Details</h3>
 
                 <div class="form-grid">
@@ -117,11 +118,19 @@
                     </div>
                 </div>
 
-                <label class="cod">
-                    <input type="radio" name="payment_method"
-                           value="COD" checked>
-                    Cash on Delivery
-                </label>
+                <div class="payment-methods">
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method"
+                            value="COD" checked>
+                        Cash on Delivery
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method"
+                            value="RAZORPAY">
+                        Pay Online with Razorpay
+                    </label>
+                </div>
 
                 <h3 class="section-heading">Shipping Address</h3>
 
@@ -167,6 +176,7 @@
 
 
 {% block extra_js %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 console.log("STEPUP CHECKOUT STARTED");
 
@@ -330,16 +340,143 @@ if (checkoutForm) {
             status: "placed"
         };
 
-        try {
-            sessionStorage.setItem("stepup_order", JSON.stringify(order));
-            console.log("Order saved:", order);
+        
+const paymentMethod = order.payment_method;
 
-            window.location.href = "{% url 'order_success' %}";
-        } catch (error) {
-            console.error("Unable to save order:", error);
-            alert("Unable to save your order. Please try again.");
-        }
+if (paymentMethod === "COD") {
+    try {
+        sessionStorage.setItem("stepup_order", JSON.stringify(order));
+        window.location.href = "{% url 'order_success' %}";
+    } catch (error) {
+        console.error(error);
+        alert("Unable to save your order. Please try again.");
+    }
+
+    return;
+}
+
+if (paymentMethod === "RAZORPAY") {
+    startRazorpayPayment(order);
+}
+
     });
+}
+
+
+async function startRazorpayPayment(order) {
+    try {
+        const csrfToken = document.querySelector(
+            '[name="csrfmiddlewaretoken"]'
+        ).value;
+
+        // Ask Django to create the Razorpay order.
+        const response = await fetch(
+            "{% url 'create_razorpay_order' %}",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({
+                    amount: order.total
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.order_id || !data.key) {
+            throw new Error(data.error || "Unable to create payment.");
+        }
+
+        const options = {
+            key: data.key,
+            amount: data.amount,
+            currency: data.currency || "INR",
+            name: "StepUp.in",
+            description: "Shoe Order Payment",
+            order_id: data.order_id,
+
+            prefill: {
+                name: order.customer.first_name + " " +
+                      order.customer.last_name,
+                email: order.customer.email,
+                contact: order.customer.phone
+            },
+
+            handler: async function (payment) {
+                try {
+                    const verifyResponse = await fetch(
+                        "{% url 'verify_razorpay_payment' %}",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRFToken": csrfToken
+                            },
+                            body: JSON.stringify({
+                                ...payment,
+                                order: order
+                            })
+                        }
+                    );
+
+                    const result = await verifyResponse.json();
+
+                    if (!verifyResponse.ok || !result.success) {
+                        throw new Error(
+                            result.error || "Payment verification failed."
+                        );
+                    }
+
+                    sessionStorage.setItem(
+                        "stepup_order",
+                        JSON.stringify({
+                            ...order,
+                            payment_status: "paid",
+                            payment_id: payment.razorpay_payment_id
+                        })
+                    );
+
+                    window.location.href = "{% url 'order_success' %}";
+
+                } catch (error) {
+                    console.error(error);
+                    alert(
+                        "Payment verification failed. " +
+                        "Please contact customer support before retrying."
+                    );
+                }
+            },
+
+            modal: {
+                ondismiss: function () {
+                    console.log("Razorpay checkout was closed.");
+                }
+            },
+
+            theme: {
+                color: "#2F4F4F"
+            }
+        };
+
+        const razorpay = new Razorpay(options);
+
+        razorpay.on("payment.failed", function (response) {
+            console.error("Payment failed:", response.error);
+            alert(
+                response.error.description ||
+                "Payment failed. Please try again."
+            );
+        });
+
+        razorpay.open();
+
+    } catch (error) {
+        console.error("Razorpay error:", error);
+        alert("Unable to start payment: " + error.message);
+    }
 }
 
 renderCheckout();
